@@ -1,0 +1,67 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AuthResponse {
+  accessToken: String
+  refreshToken: String
+  requiresTwoFactor: Boolean
+  userId: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type MessageResponse {
+  message: String!
+}
+
+type Mutation {
+  login(input: LoginInput!): AuthResponse!
+  logout: MessageResponse!
+  refreshTokens(input: RefreshTokenInput!): AuthResponse!
+  register(input: RegisterInput!): MessageResponse!
+  verifyEmail(input: VerifyEmailInput!): MessageResponse!
+}
+
+type Query {
+  me: UserModel!
+}
+
+input RefreshTokenInput {
+  refreshToken: String!
+}
+
+input RegisterInput {
+  email: String!
+  password: String!
+  username: String
+}
+
+type UserModel {
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+  isEmailVerified: Boolean!
+  isTwoFactorEnabled: Boolean!
+  role: UserRole!
+  updatedAt: DateTime!
+  username: String
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+input VerifyEmailInput {
+  code: String!
+  userId: String!
+}
