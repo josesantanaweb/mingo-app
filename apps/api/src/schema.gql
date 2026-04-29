@@ -14,6 +14,21 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type League {
+  country: String!
+  createdAt: DateTime!
+  id: ID!
+  logo: String!
+  name: String!
+  teams: [Team!]
+}
+
+input LeagueInput {
+  country: String!
+  logo: String!
+  name: String!
+}
+
 input LoginInput {
   email: String!
   password: String!
@@ -24,15 +39,30 @@ type MessageResponse {
 }
 
 type Mutation {
+  createLeague(input: LeagueInput!): League!
+  createTag(input: TagInput!): Tag!
+  createTeam(input: TeamInput!): Team!
+  deleteLeague(id: String!): League!
+  deleteTag(id: String!): Tag!
+  deleteTeam(id: String!): Team!
   login(input: LoginInput!): AuthResponse!
   logout: MessageResponse!
   refreshTokens(input: RefreshTokenInput!): AuthResponse!
   register(input: RegisterInput!): MessageResponse!
+  updateLeague(id: String!, input: LeagueInput!): League!
+  updateTag(id: String!, input: TagInput!): Tag!
+  updateTeam(id: String!, input: TeamInput!): Team!
   verifyEmail(input: VerifyEmailInput!): MessageResponse!
 }
 
 type Query {
-  me: UserModel!
+  league(id: String!): League
+  leagues: [League!]!
+  me: User!
+  tag(id: String!): Tag
+  tags: [Tag!]!
+  team(id: String!): Team
+  teams: [Team!]!
 }
 
 input RefreshTokenInput {
@@ -45,7 +75,32 @@ input RegisterInput {
   username: String
 }
 
-type UserModel {
+type Tag {
+  id: ID!
+  label: String!
+  teams: [Team!]
+}
+
+input TagInput {
+  label: String!
+}
+
+type Team {
+  id: ID!
+  league: League
+  logo: String!
+  name: String!
+  tags: [Tag!]
+}
+
+input TeamInput {
+  leagueId: String!
+  logo: String!
+  name: String!
+  tagIds: [String!]
+}
+
+type User {
   createdAt: DateTime!
   email: String!
   id: ID!
