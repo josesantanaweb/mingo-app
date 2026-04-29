@@ -99,7 +99,7 @@ model Team {
 
   homeMatches Match[] @relation("HomeTeam")
   awayMatches Match[] @relation("AwayTeam")
-  tags  Tag[]  @relation("TeamTags")
+  tags        Tag[]   @relation("TeamTags")
 
   @@map("teams")
 }
@@ -118,9 +118,10 @@ model Match {
   awayTeamId String
   homeTeam   Team     @relation("HomeTeam", fields: [homeTeamId], references: [id])
   awayTeam   Team     @relation("AwayTeam", fields: [awayTeamId], references: [id])
-  matchDate  DateTime
+  startDate  DateTime
   bets       Bet[]
 
+  @@index([startDate])
   @@map("matches")
 }
 

@@ -11,6 +11,8 @@ import { UsersModule } from './modules/users/users.module';
 import { LeaguesModule } from './modules/leagues/leagues.module';
 import { TeamsModule } from './modules/teams/teams.module';
 import { TagsModule } from './modules/tags/tags.module';
+import { BetsModule } from './modules/bets/bets.module';
+import { MatchesModule } from './modules/matches/matches.module';
 import appConfig from './config/app.config';
 import jwtConfig from './config/jwt.config';
 
@@ -53,6 +55,8 @@ const envFilePaths = [
     LeaguesModule,
     TeamsModule,
     TagsModule,
+    BetsModule,
+    MatchesModule,
   ],
 })
 export class AppModule {}
