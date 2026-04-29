@@ -5,11 +5,11 @@ import { RegisterInput } from './dto/register.input';
 import { LoginInput } from './dto/login.input';
 import { VerifyEmailInput } from './dto/verify-email.input';
 import { RefreshTokenInput } from './dto/refresh-token.input';
-import { AuthResponse } from './models/auth.model';
-import { MessageResponse } from './models/message.model';
+import { AuthResponse } from './entities/auth.entity';
+import { MessageResponse } from './entities/message.entity';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
-import type { UserModel } from '../users/models/user.model';
+import type { User } from '../users/entities/user.entity';
 
 @Resolver()
 export class AuthResolver {
@@ -38,7 +38,7 @@ export class AuthResolver {
   @Mutation(() => MessageResponse)
   @UseGuards(JwtAuthGuard)
   async logout(
-    @CurrentUser() user: UserModel,
+    @CurrentUser() user: User,
     @Context() _ctx: unknown,
   ): Promise<MessageResponse> {
     return this.authService.logout(user.id);

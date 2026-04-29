@@ -1,12 +1,12 @@
 services:
   postgres:
     image: postgres:16
-    container_name: mingo-postgres
+    container_name: steik-postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: mingo_db
+      POSTGRES_DB: steik_db
     ports:
       - '5432:5432'
     volumes:

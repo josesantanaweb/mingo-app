@@ -4,7 +4,7 @@ import { UserRole } from '@mingo/database';
 registerEnumType(UserRole, { name: 'UserRole' });
 
 @ObjectType()
-export class UserModel {
+export class User {
   @Field(() => ID)
   id!: string;
 
