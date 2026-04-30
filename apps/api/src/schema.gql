@@ -14,19 +14,18 @@ type Bet {
   id: ID!
   market: Market
   match: Match
-  odds: Decimal!
+  odds: Float!
   prediction: String!
-  stake: Decimal!
+  stake: Float!
   status: BetStatus!
 }
 
 input BetInput {
   marketId: String!
   matchId: String!
-  name: String!
-  odds: Decimal!
+  odds: Float!
   prediction: String!
-  stake: Decimal!
+  stake: Float!
   status: BetStatus
 }
 
@@ -41,9 +40,6 @@ enum BetStatus {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
-
-"""Decimal scalar that preserves precision using string transport."""
-scalar Decimal
 
 type League {
   country: String!

@@ -14,7 +14,6 @@ import { TagsModule } from './modules/tags/tags.module';
 import { BetsModule } from './modules/bets/bets.module';
 import { MatchesModule } from './modules/matches/matches.module';
 import { MarketsModule } from './modules/markets/markets.module';
-import { DecimalScalar } from './common/scalars/decimal.scalar';
 import appConfig from './config/app.config';
 import jwtConfig from './config/jwt.config';
 
@@ -27,7 +26,6 @@ const envFilePaths = [
 ];
 
 @Module({
-  providers: [DecimalScalar],
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,

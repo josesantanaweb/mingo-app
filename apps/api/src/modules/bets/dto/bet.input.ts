@@ -1,13 +1,9 @@
-import { InputType, Field } from '@nestjs/graphql';
-import { IsEnum, IsOptional, IsString } from 'class-validator';
-import { BetStatus, Prisma } from '@mingo/database';
+import { InputType, Field, Float } from '@nestjs/graphql';
+import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
+import { BetStatus } from '@mingo/database';
 
 @InputType()
 export class BetInput {
-  @Field()
-  @IsString()
-  name!: string;
-
   @Field()
   @IsString()
   marketId!: string;
@@ -20,13 +16,13 @@ export class BetInput {
   @IsString()
   prediction!: string;
 
-  @Field(() => Prisma.Decimal)
-  @IsString()
-  odds!: string;
+  @Field(() => Float)
+  @IsNumber()
+  odds!: number;
 
-  @Field(() => Prisma.Decimal)
-  @IsString()
-  stake!: string;
+  @Field(() => Float)
+  @IsNumber()
+  stake!: number;
 
   @Field(() => BetStatus, { nullable: true })
   @IsOptional()
