@@ -1,6 +1,6 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { League } from '../../leagues/entities/league.entity';
-import { Tag } from '../../tags/entities/tag.entity';
+import { League } from '@/modules/leagues/entities/league.entity';
+import { Tag } from '@/modules/tags/entities/tag.entity';
 
 @ObjectType()
 export class Team {

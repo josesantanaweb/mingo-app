@@ -1,7 +1,7 @@
 import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
 import { MatchStatus } from '@mingo/database';
-import { Team } from '../../teams/entities/team.entity';
-import { Bet } from '../../bets/entities/bet.entity';
+import { Team } from '@/modules/teams/entities/team.entity';
+import { Bet } from '@/modules/bets/entities/bet.entity';
 
 registerEnumType(MatchStatus, { name: 'MatchStatus' });
 

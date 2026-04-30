@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../prisma/prisma.service';
-import type { MatchInput } from './dto/match.input';
-import type { Match } from './entities/match.entity';
+import { PrismaService } from '@/prisma/prisma.service';
+import type { MatchInput } from '@/modules/matches/dto/match.input';
+import type { Match } from '@/modules/matches/entities/match.entity';
 
 @Injectable()
 export class MatchesService {

@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { MarketsService } from './markets.service';
-import { Market } from './entities/market.entity';
-import { MarketInput } from './dto/market.input';
+import { MarketsService } from '@/modules/markets/markets.service';
+import { Market } from '@/modules/markets/entities/market.entity';
+import { MarketInput } from '@/modules/markets/dto/market.input';
 
 @Resolver(() => Market)
 export class MarketsResolver {

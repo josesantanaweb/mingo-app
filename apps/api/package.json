@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "nest build",
+    "build": "nest build && tsc-alias -p tsconfig.build.json",
     "dev": "pnpm --filter @mingo/database build && nest start --watch",
     "start": "node dist/main",
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
@@ -51,6 +51,7 @@
     "@typescript-eslint/eslint-plugin": "^8.26.1",
     "@typescript-eslint/parser": "^8.26.1",
     "eslint": "^9.21.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "tsc-alias": "^1.8.16"
   }
 }

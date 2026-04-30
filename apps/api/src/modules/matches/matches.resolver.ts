@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { MatchesService } from './matches.service';
-import { Match } from './entities/match.entity';
-import { MatchInput } from './dto/match.input';
+import { MatchesService } from '@/modules/matches/matches.service';
+import { Match } from '@/modules/matches/entities/match.entity';
+import { MatchInput } from '@/modules/matches/dto/match.input';
 
 @Resolver(() => Match)
 export class MatchesResolver {

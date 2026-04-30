@@ -1,5 +1,5 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Team } from '../../teams/entities/team.entity';
+import { Team } from '@/modules/teams/entities/team.entity';
 
 @ObjectType()
 export class Tag {

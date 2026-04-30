@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { LeaguesService } from './leagues.service';
-import { LeaguesResolver } from './leagues.resolver';
+import { LeaguesService } from '@/modules/leagues/leagues.service';
+import { LeaguesResolver } from '@/modules/leagues/leagues.resolver';
 
 @Module({
   providers: [LeaguesResolver, LeaguesService],

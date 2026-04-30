@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../prisma/prisma.service';
+import { PrismaService } from '@/prisma/prisma.service';
 import type { League } from '@mingo/database';
-import type { LeagueInput } from './dto/league.input';
+import type { LeagueInput } from '@/modules/leagues/dto/league.input';
 
 @Injectable()
 export class LeaguesService {

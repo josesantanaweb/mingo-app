@@ -1,5 +1,5 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Bet } from '../../bets/entities/bet.entity';
+import { Bet } from '@/modules/bets/entities/bet.entity';
 
 @ObjectType()
 export class Market {

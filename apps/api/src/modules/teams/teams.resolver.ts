@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { TeamsService } from './teams.service';
-import { Team } from './entities/team.entity';
-import { TeamInput } from './dto/team.input';
+import { TeamsService } from '@/modules/teams/teams.service';
+import { Team } from '@/modules/teams/entities/team.entity';
+import { TeamInput } from '@/modules/teams/dto/team.input';
 
 @Resolver(() => Team)
 export class TeamsResolver {

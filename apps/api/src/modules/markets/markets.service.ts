@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../prisma/prisma.service';
+import { PrismaService } from '@/prisma/prisma.service';
 import type { Market } from '@mingo/database';
-import type { MarketInput } from './dto/market.input';
+import type { MarketInput } from '@/modules/markets/dto/market.input';
 
 @Injectable()
 export class MarketsService {

@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { LeaguesService } from './leagues.service';
-import { League } from './entities/league.entity';
-import { LeagueInput } from './dto/league.input';
+import { LeaguesService } from '@/modules/leagues/leagues.service';
+import { League } from '@/modules/leagues/entities/league.entity';
+import { LeagueInput } from '@/modules/leagues/dto/league.input';
 
 @Resolver(() => League)
 export class LeaguesResolver {

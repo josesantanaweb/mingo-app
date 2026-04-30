@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { BetsService } from './bets.service';
-import { Bet } from './entities/bet.entity';
-import { BetInput } from './dto/bet.input';
+import { BetsService } from '@/modules/bets/bets.service';
+import { Bet } from '@/modules/bets/entities/bet.entity';
+import { BetInput } from '@/modules/bets/dto/bet.input';
 
 @Resolver(() => Bet)
 export class BetsResolver {

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../prisma/prisma.service';
+import { PrismaService } from '@/prisma/prisma.service';
 import type { Team } from '@mingo/database';
-import type { TeamInput } from './dto/team.input';
+import type { TeamInput } from '@/modules/teams/dto/team.input';
 
 @Injectable()
 export class TeamsService {

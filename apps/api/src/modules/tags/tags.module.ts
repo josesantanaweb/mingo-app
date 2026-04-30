@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { TagsService } from './tags.service';
-import { TagsResolver } from './tags.resolver';
+import { TagsService } from '@/modules/tags/tags.service';
+import { TagsResolver } from '@/modules/tags/tags.resolver';
 
 @Module({
   providers: [TagsResolver, TagsService],

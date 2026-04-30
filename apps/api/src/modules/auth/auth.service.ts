@@ -3,11 +3,11 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
-import { PrismaService } from '../../prisma/prisma.service';
-import { UsersService } from '../users/users.service';
-import { OtpService } from './otp.service';
-import type { RegisterInput } from './dto/register.input';
-import type { LoginInput } from './dto/login.input';
+import { PrismaService } from '@/prisma/prisma.service';
+import { UsersService } from '@/modules/users/users.service';
+import { OtpService } from '@/modules/auth/otp.service';
+import type { RegisterInput } from '@/modules/auth/dto/register.input';
+import type { LoginInput } from '@/modules/auth/dto/login.input';
 
 @Injectable()
 export class AuthService {
