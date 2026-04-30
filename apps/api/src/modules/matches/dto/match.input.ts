@@ -2,16 +2,20 @@ import { InputType, Field } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
 
 @InputType()
-export class LeagueInput {
+export class MatchInput {
   @Field()
   @IsString()
   name!: string;
 
   @Field()
   @IsString()
-  country!: string;
+  startDate!: string;
 
   @Field()
   @IsString()
-  logo!: string;
+  homeTeamId!: string;
+
+  @Field()
+  @IsString()
+  awayTeamId!: string;
 }

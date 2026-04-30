@@ -1,6 +1,9 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
+import { MatchStatus } from '@mingo/database';
 import { Team } from '../../teams/entities/team.entity';
 import { Bet } from '../../bets/entities/bet.entity';
+
+registerEnumType(MatchStatus, { name: 'MatchStatus' });
 
 @ObjectType()
 export class Match {
@@ -13,12 +16,15 @@ export class Match {
   @Field()
   createdAt!: Date;
 
-  @Field(() => Team)
-  homeTeam!: Team;
+  @Field(() => Team, { nullable: true })
+  homeTeam?: Team;
 
-  @Field(() => Team)
-  awayTeam!: Team;
+  @Field(() => Team, { nullable: true })
+  awayTeam?: Team;
 
   @Field(() => [Bet], { nullable: true })
   bets?: Bet[];
+
+  @Field(() => MatchStatus)
+  status!: MatchStatus;
 }

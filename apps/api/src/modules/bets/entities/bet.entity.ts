@@ -1,7 +1,9 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { BetStatus } from '@mingo/database';
+import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
+import { BetStatus, Prisma } from '@mingo/database';
 import { Match } from '../../matches/entities/match.entity';
+import { Market } from '../../markets/entities/market.entity';
 
+registerEnumType(BetStatus, { name: 'BetStatus' });
 
 @ObjectType()
 export class Bet {
@@ -11,11 +13,11 @@ export class Bet {
   @Field()
   prediction!: string;
 
-  @Field()
-  odds!: number;
+  @Field(() => Prisma.Decimal)
+  odds!: Prisma.Decimal;
 
-  @Field()
-  stake!: number;
+  @Field(() => Prisma.Decimal)
+  stake!: Prisma.Decimal;
 
   @Field()
   createdAt!: Date;
@@ -23,6 +25,9 @@ export class Bet {
   @Field(() => BetStatus)
   status!: BetStatus;
 
-  @Field(() => [Match], { nullable: true })
-  matches?: Match[];
+  @Field(() => Match, { nullable: true })
+  match?: Match;
+
+  @Field(() => Market, { nullable: true })
+  market?: Market;
 }

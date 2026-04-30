@@ -9,10 +9,41 @@ type AuthResponse {
   userId: String
 }
 
+type Bet {
+  createdAt: DateTime!
+  id: ID!
+  market: Market
+  match: Match
+  odds: Decimal!
+  prediction: String!
+  stake: Decimal!
+  status: BetStatus!
+}
+
+input BetInput {
+  marketId: String!
+  matchId: String!
+  name: String!
+  odds: Decimal!
+  prediction: String!
+  stake: Decimal!
+  status: BetStatus
+}
+
+enum BetStatus {
+  LOST
+  PENDING
+  VOID
+  WON
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+"""Decimal scalar that preserves precision using string transport."""
+scalar Decimal
 
 type League {
   country: String!
@@ -34,30 +65,79 @@ input LoginInput {
   password: String!
 }
 
+type Market {
+  bets: [Bet!]
+  id: ID!
+  name: String!
+}
+
+input MarketInput {
+  name: String!
+  status: BetStatus
+}
+
+type Match {
+  awayTeam: Team
+  bets: [Bet!]
+  createdAt: DateTime!
+  homeTeam: Team
+  id: ID!
+  startDate: DateTime!
+  status: MatchStatus!
+}
+
+input MatchInput {
+  awayTeamId: String!
+  homeTeamId: String!
+  name: String!
+  startDate: String!
+}
+
+enum MatchStatus {
+  FINISHED
+  LIVE
+  UPCOMING
+}
+
 type MessageResponse {
   message: String!
 }
 
 type Mutation {
+  createBet(input: BetInput!): Bet!
   createLeague(input: LeagueInput!): League!
+  createMarket(input: MarketInput!): Market!
+  createMatch(input: MatchInput!): Match!
   createTag(input: TagInput!): Tag!
   createTeam(input: TeamInput!): Team!
+  deleteBet(id: String!): Bet!
   deleteLeague(id: String!): League!
+  deleteMarket(id: String!): Market!
+  deleteMatch(id: String!): Match!
   deleteTag(id: String!): Tag!
   deleteTeam(id: String!): Team!
   login(input: LoginInput!): AuthResponse!
   logout: MessageResponse!
   refreshTokens(input: RefreshTokenInput!): AuthResponse!
   register(input: RegisterInput!): MessageResponse!
+  updateBet(id: String!, input: BetInput!): Bet!
   updateLeague(id: String!, input: LeagueInput!): League!
+  updateMarket(id: String!, input: MarketInput!): Market!
+  updateMatch(id: String!, input: MatchInput!): Match!
   updateTag(id: String!, input: TagInput!): Tag!
   updateTeam(id: String!, input: TeamInput!): Team!
   verifyEmail(input: VerifyEmailInput!): MessageResponse!
 }
 
 type Query {
+  bet(id: String!): Bet
+  bets: [Bet!]!
   league(id: String!): League
   leagues: [League!]!
+  market(id: String!): Market
+  markets: [Market!]!
+  match(id: String!): Match
+  matches: [Match!]!
   me: User!
   tag(id: String!): Tag
   tags: [Tag!]!

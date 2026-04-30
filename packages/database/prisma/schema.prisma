@@ -91,11 +91,12 @@ model League {
 }
 
 model Team {
-  id       String @id @default(cuid())
-  name     String
-  logo     String
-  leagueId String
-  league   League @relation(fields: [leagueId], references: [id])
+  id        String   @id @default(cuid())
+  name      String
+  logo      String
+  leagueId  String
+  league    League   @relation(fields: [leagueId], references: [id])
+  createdAt DateTime @default(now())
 
   homeMatches Match[] @relation("HomeTeam")
   awayMatches Match[] @relation("AwayTeam")
@@ -109,17 +110,22 @@ model Tag {
   label String @unique
   teams Team[] @relation("TeamTags")
 
+  createdAt DateTime @default(now())
+
   @@map("tags")
 }
 
 model Match {
-  id         String   @id @default(cuid())
+  id         String      @id @default(cuid())
   homeTeamId String
   awayTeamId String
-  homeTeam   Team     @relation("HomeTeam", fields: [homeTeamId], references: [id])
-  awayTeam   Team     @relation("AwayTeam", fields: [awayTeamId], references: [id])
+  homeTeam   Team        @relation("HomeTeam", fields: [homeTeamId], references: [id])
+  awayTeam   Team        @relation("AwayTeam", fields: [awayTeamId], references: [id])
   startDate  DateTime
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
   bets       Bet[]
+  status     MatchStatus @default(UPCOMING)
 
   @@index([startDate])
   @@map("matches")
@@ -129,6 +135,9 @@ model Market {
   id   String @id @default(cuid())
   name String
   bets Bet[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("markets")
 }
@@ -169,4 +178,10 @@ enum BetStatus {
   WON
   LOST
   VOID
+}
+
+enum MatchStatus {
+  UPCOMING
+  LIVE
+  FINISHED
 }
