@@ -73,7 +73,6 @@ type Market {
 
 input MarketInput {
   name: String!
-  status: BetStatus
 }
 
 type Match {
@@ -89,8 +88,8 @@ type Match {
 input MatchInput {
   awayTeamId: String!
   homeTeamId: String!
-  name: String!
   startDate: String!
+  status: MatchStatus
 }
 
 enum MatchStatus {
