@@ -17,7 +17,7 @@ type TabItem = {
 };
 
 const TABS: TabItem[] = [
-  { href: '/', icon: Dashboard, label: 'Dash' },
+  { href: '/', icon: Dashboard, label: 'Dashboard' },
   { href: '/leagues', icon: FlagAlt2, label: 'Leagues' },
   { href: '/bets', icon: DollarCircle, label: 'Bets', isCenter: true },
   { href: '/teams', icon: Football, label: 'Teams' },
@@ -35,8 +35,8 @@ export const BottomNav = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 mx-auto h-16 max-w-lg bg-surface border-t border-white/5 shadow-2xl">
-      <div className="flex h-full items-center justify-around px-2">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 mx-auto h-16 max-w-lg bg-surface">
+      <div className="flex h-full items-center justify-between">
         {TABS.map((tab) => {
           const isActive = pathname === tab.href;
 
@@ -55,14 +55,14 @@ const CenterButton = ({ href, icon: Icon, label, isActive }: NavButtonProps) => 
   <Link href={href} aria-label={label} className="relative flex flex-1 justify-center">
     <div
       className={cn(
-        "absolute -top-15 flex h-14 w-14 rotate-45 items-center justify-center rounded-2xl transition-all duration-300",
+        "absolute -top-15 flex h-14 w-14 rotate-45 items-center justify-center rounded-xl transition-all duration-300 bg-linear-to-t from-secondary to-primary text-on-accent",
         isActive 
-          ? "bg-primary text-black scale-110" 
-          : "bg-primary text-black hover:scale-105 active:scale-95"
+          ? "scale-110" 
+          : "hover:scale-105 active:scale-95"
       )}
     >
       <div className="-rotate-45 flex items-center justify-center">
-        <Icon pack="filled" className="h-7 w-7" />
+        <Icon pack="filled" className="h-8 w-8" />
       </div>
     </div>
   </Link>
@@ -74,10 +74,10 @@ const NavButton = ({ href, icon: Icon, label, isActive }: NavButtonProps) => (
     href={href}
     className={cn(
       "flex flex-1 flex-col items-center justify-center gap-1 transition-all duration-200",
-      isActive ? "text-primary scale-105" : "text-muted-foreground hover:text-primary/80"
+      isActive ? "text-primary scale-105" : "text-white hover:text-primary/80"
     )}
   >
     <Icon pack="filled" className={cn("h-6 w-6", isActive && "drop-shadow-[0_0_8px_rgba(var(--primary-rgb),0.5)]")} />
-    <span className="text-[10px] font-medium uppercase tracking-wider">{label}</span>
+    <span className="text-xs font-medium tracking-wider">{label}</span>
   </Link>
 );

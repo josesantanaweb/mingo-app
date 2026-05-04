@@ -3,8 +3,9 @@
 @theme inline {
   --color-canvas: var(--canvas);
   --color-surface: var(--surface);
+  --color-on-accent: var(--on-accent);
   --color-foreground: var(--ink);
-  --color-text: var(--text);
+  --color-body: var(--body);
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-error: var(--error);
@@ -19,7 +20,8 @@
   color-scheme: dark;
   --canvas: #101010;
   --surface: #141414;
-  --text: #55657E;
+  --on-accent: #101010;
+  --body: #55657e;
   --success: #19ebb6;
   --warning: #f2c94c;
   --error: #db4446;
@@ -33,7 +35,8 @@
     color-scheme: light;
     --canvas: #101010;
     --surface: #141414;
-    --muted: #94a3b8;
+    --body: #55657e;
+    --on-accent: #101010;
     --success: #19ebb6;
     --warning: #f2c94c;
     --error: #db4446;
@@ -47,7 +50,8 @@
   color-scheme: light;
   --canvas: #101010;
   --surface: #141414;
-  --muted: #94a3b8;
+  --on-accent: #101010;
+  --body: #55657e;
   --success: #19ebb6;
   --warning: #f2c94c;
   --error: #db4446;
