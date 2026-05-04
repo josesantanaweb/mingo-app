@@ -7,15 +7,6 @@ import type { Bet } from '@/modules/bets/entities/bet.entity';
 export class BetsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  // TODO: Refactor this to a more generic solution if we find more cases of number fields being returned as strings by Prisma.
-  private toBetOutput<T extends { odds: unknown; stake: unknown }>(bet: T): T & Pick<Bet, 'odds' | 'stake'> {
-    return {
-      ...bet,
-      odds: Number(bet.odds),
-      stake: Number(bet.stake),
-    };
-  }
-
   /**
    * Lists all registered bets.
    */
@@ -27,7 +18,7 @@ export class BetsService {
       },
     });
 
-    return bets.map((bet) => this.toBetOutput(bet));
+    return bets;
   }
 
   /**
@@ -43,7 +34,7 @@ export class BetsService {
       },
     });
 
-    return bet ? this.toBetOutput(bet) : null;
+    return bet;
   }
 
   /**
@@ -59,7 +50,7 @@ export class BetsService {
       },
     });
 
-    return this.toBetOutput(bet);
+    return bet;
   }
 
   /**
@@ -77,7 +68,7 @@ export class BetsService {
       },
     });
 
-    return this.toBetOutput(bet);
+    return bet;
   }
 
   /**
@@ -89,6 +80,6 @@ export class BetsService {
       where: { id },
     });
 
-    return this.toBetOutput(bet);
+    return bet;
   }
 }
