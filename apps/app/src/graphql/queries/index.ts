@@ -1,0 +1,1 @@
+export { GET_TEAMS, GET_TEAM } from './teams';
