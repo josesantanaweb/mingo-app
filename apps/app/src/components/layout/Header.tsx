@@ -1,7 +1,7 @@
 'use client';
-import { ASSETS } from '@/constants';
-import Image from 'next/image';
 import { Menu } from '@boxicons/react';
+import { Balance } from '@/components/common';
+import { Logo } from '@/components/ui';
 
 export const Header = () => {
   return (
@@ -11,17 +11,9 @@ export const Header = () => {
           <button className="cursor-pointer text-white">
             <Menu pack="filled" className="h-6 w-6" />
           </button>
-          <div className="w-24 h-6">
-            <Image
-              src={ASSETS.IMAGES.LOGO}
-              alt="Logo"
-              width={100}
-              height={100}
-              className="w-full h-full object-cover"
-            />
-          </div>
+          <Logo />
         </div>
-        <h6 className="text-sm font-semibold">Balance: 200$</h6>
+        <Balance />
       </div>
     </div>
   );

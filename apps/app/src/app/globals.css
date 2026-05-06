@@ -12,7 +12,7 @@
   --color-stroke: var(--stroke);
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
-  --font-sans: var(--font-inter, 'Inter');
+  --font-sans: var(--font-outfit, 'Outfit');
   --font-mono: var(--font-fira-code, 'Fira Code');
 }
 
@@ -87,4 +87,13 @@ body {
   background-size: 220% 100%;
   animation: skeleton-shimmer 2.2s ease-in-out infinite;
   will-change: background-position;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE y Edge antiguos */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
