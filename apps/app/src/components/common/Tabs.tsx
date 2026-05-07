@@ -1,29 +1,36 @@
 'use client';
-import type { ReactElement } from 'react';
+import { cn } from '@/lib';
 
-const TABS = [
-  'all teams',
-  'favorites',
-];
-
-export type TeamsTabKey = 'all' | 'favorites'
-
+interface Tab {
+  key: string;
+  label: string;
+}
 interface TabsProps {
-  activeTab: TeamsTabKey
-  allCount: number
-  favoritesCount: number
-  onTabChange: (tab: TeamsTabKey) => void
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+  tabs?: Tab[];
 }
 
-export const Tabs = ({ activeTab, allCount, favoritesCount, onTabChange }: TabsProps) => {
+export const Tabs = ({ activeTab, onTabChange, tabs = [] }: TabsProps) => {
   return (
     <div className="flex items-center border-b border-stroke/50 gap-6">
-      <span className="text-white font-semibold uppercase flex-1 p-4 text-sm text-center cursor-pointer">
-        all teams
-      </span>
-      <span className="text-body font-semibold uppercase flex-1 p-4 text-sm text-center cursor-pointer">
-        favorites
-      </span>
+      {tabs.map((tab) => {
+        const isActive = activeTab === tab.key;
+        const tabClasses = cn(
+          'font-semibold uppercase flex-1 p-4 text-sm text-center cursor-pointer border-b-2 transition-colors',
+          isActive ? 'text-primary border-primary' : 'text-body border-transparent',
+        );
+        return (
+          <button
+            key={tab.key}
+            type="button"
+            onClick={() => onTabChange(tab.key)}
+            className={tabClasses}
+          >
+            {tab.label}
+          </button>
+        );
+      })}
     </div>
   );
 };

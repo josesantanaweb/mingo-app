@@ -1,7 +1,14 @@
 'use client';
 import type { ReactElement } from 'react';
 import { useState } from 'react';
-import { MetricsBox, LeagueButton, Tabs } from '@/components/common';
+import { MetricsBox, Tabs } from '@/components/common';
+import { LeaguesFilter } from '@/components/leagues';
+import { EmptyState } from '@/components/teams';
+
+const TABS = [
+  { key: 'all' as const, label: 'all teams' },
+  { key: 'favorites' as const, label: 'favorites' },
+];
 
 const LEAGUES = [
   'All',
@@ -15,6 +22,7 @@ const LEAGUES = [
 ];
 
 export const Teams = (): ReactElement => {
+  const [activeTab, setActiveTab] = useState<string>('all');
   const [activeLeague, setActiveLeague] = useState<string>(LEAGUES[0]);
 
   return (
@@ -32,20 +40,17 @@ export const Teams = (): ReactElement => {
         <MetricsBox title="profit" value="+2.6K" />
       </div>
 
-      <Tabs />
+      <Tabs activeTab={activeTab} onTabChange={setActiveTab} tabs={TABS} />
 
       <div className="flex flex-col">
-        <div className="flex items-center gap-3 max-w-lg overflow-x-auto scrollbar-hide">
-          {LEAGUES.map((league) => (
-            <LeagueButton
-              key={league}
-              label={league}
-              active={activeLeague === league}
-              onClick={() => setActiveLeague(league)}
-            />
-          ))}
-        </div>
+        <LeaguesFilter
+          leagues={LEAGUES}
+          activeLeague={activeLeague}
+          setActiveLeague={setActiveLeague}
+        />
       </div>
+
+      <EmptyState />
     </div>
   );
 };
