@@ -150,8 +150,8 @@ model Bet {
   market   Market @relation(fields: [marketId], references: [id])
 
   prediction String
-  odds       Decimal
-  stake      Decimal
+  odds       Float
+  stake      Float
   status     BetStatus @default(PENDING)
 
   createdAt DateTime @default(now())

@@ -13,7 +13,7 @@ interface TabsProps {
 
 export const Tabs = ({ activeTab, onTabChange, tabs = [] }: TabsProps) => {
   return (
-    <div className="flex items-center border-b border-stroke/50 gap-6">
+    <div className="flex items-center border-b border-stroke/30 gap-6">
       {tabs.map((tab) => {
         const isActive = activeTab === tab.key;
         const tabClasses = cn(

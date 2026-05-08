@@ -1,2 +1,3 @@
-export { Teams } from './Teams';
+export { TeamsWrapper } from './TeamsWrapper';
+export { TeamItem } from './TeamItem';
 export { EmptyState } from './EmptyState';

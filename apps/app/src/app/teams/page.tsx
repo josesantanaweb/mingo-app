@@ -1,5 +1,5 @@
-import { Teams } from "@/components/teams";
+import { TeamsWrapper } from "@/components/teams";
 
-const TeamsPage = () => <Teams />;
+const TeamsPage = () => <TeamsWrapper />;
 
 export default TeamsPage;
