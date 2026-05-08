@@ -13,6 +13,9 @@ export class Team {
   @Field()
   logo!: string;
 
+  @Field({ nullable: true })
+  isFavorite?: boolean;
+
   @Field(() => League, { nullable: true })
   league?: League;
 

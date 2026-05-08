@@ -137,7 +137,7 @@ type Query {
   tag(id: String!): Tag
   tags: [Tag!]!
   team(id: String!): Team
-  teams: [Team!]!
+  teams(filter: TeamFilterInput): [Team!]!
 }
 
 input RefreshTokenInput {
@@ -162,13 +162,20 @@ input TagInput {
 
 type Team {
   id: ID!
+  isFavorite: Boolean
   league: League
   logo: String!
   name: String!
   tags: [Tag!]
 }
 
+input TeamFilterInput {
+  isFavorite: Boolean
+  leagueId: String
+}
+
 input TeamInput {
+  isFavorite: Boolean
   leagueId: String!
   logo: String!
   name: String!

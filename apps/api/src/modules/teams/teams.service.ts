@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/prisma/prisma.service';
-import type { Team } from '@mingo/database';
+import type { Team } from '@/modules/teams/entities/team.entity';
 import type { TeamInput } from '@/modules/teams/dto/team.input';
+import type { TeamFilterInput } from '@/modules/teams/dto/team-filter.input';
 
 @Injectable()
 export class TeamsService {
@@ -10,8 +11,14 @@ export class TeamsService {
   /**
    * Lists all teams with their league and associated tags.
    */
-  async findAll(): Promise<Team[]> {
+  async findAll(filter?: TeamFilterInput): Promise<Team[]> {
+    const where = {
+      ...(filter?.leagueId ? { leagueId: filter.leagueId } : {}),
+      ...(typeof filter?.isFavorite === 'boolean' ? { isFavorite: filter.isFavorite } : {}),
+    };
+
     return this.prisma.team.findMany({
+      where,
       include: { 
         league: true, 
         tags: true },

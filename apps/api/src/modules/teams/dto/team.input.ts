@@ -1,5 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IsArray, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsBoolean, IsOptional, IsString } from 'class-validator';
 
 @InputType()
 export class TeamInput {
@@ -14,6 +14,11 @@ export class TeamInput {
   @Field()
   @IsString()
   leagueId!: string;
+
+  @Field(() => Boolean, { nullable: true })
+  @IsOptional()
+  @IsBoolean()
+  isFavorite?: boolean;
 
   @Field(() => [String], { nullable: true })
   @IsOptional()

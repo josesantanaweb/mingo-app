@@ -2,6 +2,7 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { TeamsService } from '@/modules/teams/teams.service';
 import { Team } from '@/modules/teams/entities/team.entity';
 import { TeamInput } from '@/modules/teams/dto/team.input';
+import { TeamFilterInput } from '@/modules/teams/dto/team-filter.input';
 
 @Resolver(() => Team)
 export class TeamsResolver {
@@ -11,8 +12,10 @@ export class TeamsResolver {
    * Retrieves all available teams.
    */
   @Query(() => [Team], { name: 'teams' })
-  async findAll(): Promise<Team[]> {
-    return this.teamsService.findAll();
+  async findAll(
+    @Args('filter', { type: () => TeamFilterInput, nullable: true }) filter?: TeamFilterInput,
+  ): Promise<Team[]> {
+    return this.teamsService.findAll(filter);
   }
 
   /**

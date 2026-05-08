@@ -94,6 +94,7 @@ model Team {
   id        String   @id @default(cuid())
   name      String
   logo      String
+  isFavorite Boolean  @default(false)
   leagueId  String
   league    League   @relation(fields: [leagueId], references: [id])
   createdAt DateTime @default(now())
