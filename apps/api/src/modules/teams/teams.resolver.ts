@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { TeamsService } from '@/modules/teams/teams.service';
 import { Team } from '@/modules/teams/entities/team.entity';
-import { TeamInput } from '@/modules/teams/dto/team.input';
+import { CreateTeamInput, UpdateTeamInput } from '@/modules/teams/dto/team.input';
 import { TeamFilterInput } from '@/modules/teams/dto/team-filter.input';
 
 @Resolver(() => Team)
@@ -32,7 +32,7 @@ export class TeamsResolver {
    * @param input Team creation data.
    */
   @Mutation(() => Team, { name: 'createTeam' })
-  async create(@Args('input') input: TeamInput): Promise<Team> {
+  async create(@Args('input') input: CreateTeamInput): Promise<Team> {
     return this.teamsService.create(input);
   }
 
@@ -42,7 +42,7 @@ export class TeamsResolver {
    * @param input New team data.
    */
   @Mutation(() => Team, { name: 'updateTeam' })
-  async update(@Args('id') id: string, @Args('input') input: TeamInput): Promise<Team> {
+  async update(@Args('id') id: string, @Args('input') input: UpdateTeamInput): Promise<Team> {
     return this.teamsService.update(id, input);
   }
 

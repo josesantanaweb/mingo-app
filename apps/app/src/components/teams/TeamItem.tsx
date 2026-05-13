@@ -23,7 +23,7 @@ export const TeamItem = ({ team }: TeamItemProps): ReactElement => {
         </div>
         <div className="flex flex-col">
           <h6 className="text-white font-semibold text-base">{team.name}</h6>
-          <p className="text-body text-sm">{team.league.name}</p>
+          <p className="text-body text-sm">{team.league?.name ?? 'No league'}</p>
         </div>
       </div>
 

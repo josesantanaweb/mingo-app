@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { LeaguesService } from '@/modules/leagues/leagues.service';
 import { League } from '@/modules/leagues/entities/league.entity';
-import { LeagueInput } from '@/modules/leagues/dto/league.input';
+import { CreateLeagueInput, UpdateLeagueInput } from '@/modules/leagues/dto/league.input';
 
 @Resolver(() => League)
 export class LeaguesResolver {
@@ -29,7 +29,7 @@ export class LeaguesResolver {
    * @param input Required data to create the league.
    */
   @Mutation(() => League, { name: 'createLeague' })
-  async create(@Args('input') input: LeagueInput): Promise<League> {
+  async create(@Args('input') input: CreateLeagueInput): Promise<League> {
     return this.leaguesService.create(input);
   }
 
@@ -41,7 +41,7 @@ export class LeaguesResolver {
   @Mutation(() => League, { name: 'updateLeague' })
   async update(
     @Args('id') id: string,
-    @Args('input') input: LeagueInput,
+    @Args('input') input: UpdateLeagueInput,
   ): Promise<League> {
     return this.leaguesService.update(id, input);
   }

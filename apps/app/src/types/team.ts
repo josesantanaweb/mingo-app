@@ -6,8 +6,9 @@ export interface Tag {
 
 export interface Team {
   id: string;
-  league: League;
+  isFavorite?: boolean | null;
+  league?: League | null;
   logo: string;
   name: string;
-  tags: Tag[];
+  tags?: Tag[] | null;
 }

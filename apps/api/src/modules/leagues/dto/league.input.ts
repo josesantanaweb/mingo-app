@@ -1,8 +1,8 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { InputType, Field, PartialType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
 
 @InputType()
-export class LeagueInput {
+export class CreateLeagueInput {
   @Field()
   @IsString()
   name!: string;
@@ -15,3 +15,6 @@ export class LeagueInput {
   @IsString()
   logo!: string;
 }
+
+@InputType()
+export class UpdateLeagueInput extends PartialType(CreateLeagueInput) {}

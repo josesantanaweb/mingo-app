@@ -1,9 +1,11 @@
 'use client';
 import type { ReactElement } from 'react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { MetricsBox, Tabs } from '@/components/common';
+import { useTeams, useLeagues } from '@/hooks';
 import { LeaguesFilter } from '@/components/leagues';
 import { EmptyState } from '@/components/teams';
+import type { League } from '@/types';
 import { TeamsList } from './TeamsList';
 
 const TABS = [
@@ -11,54 +13,29 @@ const TABS = [
   { key: 'favorites' as const, label: 'favorites' },
 ];
 
-const LEAGUES = [
-  'All',
-  'Premier League',
-  'La Liga',
-  'Serie A',
-  'Bundesliga',
-  'Ligue 1',
-  'Eredivisie',
-  'Primeira Liga',
-];
-
-const TEAMS = [
-  {
-    id: 'cmokf3kp300034s2duwm7u2jf',
-    league: {
-      id: 'cmokf3kp300034s2duwm7u22f',
-      name: 'La Liga',
-    },
-    logo: 'https://static.flashscore.com/res/image/data/A7kHoxZA-ttfpEDUq.png',
-    name: 'Real Madrid',
-    tags: [],
-  },
-  {
-    id: 'cmokfmtno00014sdwp3gwnxyx',
-    league: {
-      id: 'cmokf3kp300034s2duwm7u2jf',
-      name: 'Premier League',
-    },
-    logo: 'https://static.flashscore.com/res/image/data/UXcqj7HG-lQuhqN8N.png',
-    name: 'Manchester City',
-    tags: [
-      {
-        label: 'Home',
-      },
-    ],
-  },
-];
-
 export const TeamsWrapper = (): ReactElement => {
   const [activeTab, setActiveTab] = useState<string>('all');
-  const [activeLeague, setActiveLeague] = useState<string>(LEAGUES[0]);
+  const { data: teams, loading, error } = useTeams();
+  const { data: leagues } = useLeagues();
+
+  const [activeLeague, setActiveLeague] = useState<League | null>(null);
+
+  const filteredTeams = useMemo(() => {
+
+    return teams.filter((team) => {
+      const matchesTab = activeTab === 'favorites' ? Boolean(team.isFavorite) : true;
+      const matchesLeague = activeLeague ? team.league?.id === activeLeague.id : true;
+
+      return matchesTab && matchesLeague;
+    });
+  }, [activeLeague, activeTab, teams]);
 
   return (
     <div className="w-full h-full flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <h3 className="text-white font-bold text-2xl">Teams</h3>
         <div className="flex flex-col">
-          <h3 className="text-primary font-bold text-xl">{TEAMS.length}</h3>
+          <h3 className="text-primary font-bold text-xl">{filteredTeams.length}</h3>
           <p className="uppercase text-sm text-body font-semibold">total teams</p>
         </div>
       </div>
@@ -71,14 +48,22 @@ export const TeamsWrapper = (): ReactElement => {
       <Tabs activeTab={activeTab} onTabChange={setActiveTab} tabs={TABS} />
 
       <LeaguesFilter
-        leagues={LEAGUES}
+        leagues={leagues}
         activeLeague={activeLeague}
         setActiveLeague={setActiveLeague}
       />
 
-      <TeamsList teams={TEAMS} />
+      {loading ? (
+        <p className="text-body text-sm">Loading teams...</p>
+      ) : null}
 
-      <EmptyState />
+      {error ? (
+        <p className="text-red-400 text-sm">Could not load teams from API.</p>
+      ) : null}
+
+      {!loading && !error && filteredTeams.length > 0 ? <TeamsList teams={filteredTeams} /> : null}
+
+      {!loading && !error && filteredTeams.length === 0 ? <EmptyState /> : null}
     </div>
   );
 };

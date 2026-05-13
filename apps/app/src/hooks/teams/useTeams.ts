@@ -8,12 +8,11 @@ type GetTeamsQuery = {
 
 export const useTeams = () => {
   const { data, error, loading } = useQuery<GetTeamsQuery>(GET_TEAMS, {
-    variables: {},
     fetchPolicy: 'network-only',
   });
 
   return {
-    data: data?.teams || null,
+    data: data?.teams ?? [],
     error,
     loading,
   };

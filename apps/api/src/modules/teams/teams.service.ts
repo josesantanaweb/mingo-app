@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/prisma/prisma.service';
 import type { Team } from '@/modules/teams/entities/team.entity';
-import type { TeamInput } from '@/modules/teams/dto/team.input';
+import type { CreateTeamInput, UpdateTeamInput } from '@/modules/teams/dto/team.input';
 import type { TeamFilterInput } from '@/modules/teams/dto/team-filter.input';
 
 @Injectable()
@@ -43,7 +43,7 @@ export class TeamsService {
    * Creates a team in the database.
    * @param input Team creation data.
    */
-  async create(input: TeamInput): Promise<Team> {
+  async create(input: CreateTeamInput): Promise<Team> {
     const { tagIds, ...teamData } = input;
 
     return this.prisma.team.create({ 
@@ -63,7 +63,7 @@ export class TeamsService {
    * @param id Team identifier.
    * @param input New team data.
    */
-  async update(id: string, input: TeamInput): Promise<Team> {
+  async update(id: string, input: UpdateTeamInput): Promise<Team> {
     const { tagIds, ...teamData } = input;
 
     return this.prisma.team.update({ 

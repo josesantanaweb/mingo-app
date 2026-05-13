@@ -1,8 +1,8 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { InputType, Field, PartialType } from '@nestjs/graphql';
 import { IsArray, IsBoolean, IsOptional, IsString } from 'class-validator';
 
 @InputType()
-export class TeamInput {
+export class CreateTeamInput {
   @Field()
   @IsString()
   name!: string;
@@ -26,3 +26,6 @@ export class TeamInput {
   @IsString({ each: true })
   tagIds?: string[];
 }
+
+@InputType()
+export class UpdateTeamInput extends PartialType(CreateTeamInput) {}

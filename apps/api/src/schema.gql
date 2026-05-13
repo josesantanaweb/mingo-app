@@ -36,6 +36,14 @@ enum BetStatus {
   WON
 }
 
+input CreateTeamInput {
+  isFavorite: Boolean
+  leagueId: String!
+  logo: String!
+  name: String!
+  tagIds: [String!]
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -104,7 +112,7 @@ type Mutation {
   createMarket(input: MarketInput!): Market!
   createMatch(input: MatchInput!): Match!
   createTag(input: TagInput!): Tag!
-  createTeam(input: TeamInput!): Team!
+  createTeam(input: CreateTeamInput!): Team!
   deleteBet(id: String!): Bet!
   deleteLeague(id: String!): League!
   deleteMarket(id: String!): Market!
@@ -120,7 +128,7 @@ type Mutation {
   updateMarket(id: String!, input: MarketInput!): Market!
   updateMatch(id: String!, input: MatchInput!): Match!
   updateTag(id: String!, input: TagInput!): Tag!
-  updateTeam(id: String!, input: TeamInput!): Team!
+  updateTeam(id: String!, input: UpdateTeamInput!): Team!
   verifyEmail(input: VerifyEmailInput!): MessageResponse!
 }
 
@@ -174,11 +182,11 @@ input TeamFilterInput {
   leagueId: String
 }
 
-input TeamInput {
+input UpdateTeamInput {
   isFavorite: Boolean
-  leagueId: String!
-  logo: String!
-  name: String!
+  leagueId: String
+  logo: String
+  name: String
   tagIds: [String!]
 }
 
