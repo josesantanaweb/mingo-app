@@ -7,6 +7,7 @@ import { LeaguesFilter } from '@/components/leagues';
 import { EmptyState } from '@/components/teams';
 import type { League } from '@/types';
 import { TeamsList } from './TeamsList';
+import { TeamSkeleton } from './TeamSkeleton';
 
 const TABS = [
   { key: 'all' as const, label: 'all teams' },
@@ -53,8 +54,8 @@ export const TeamsWrapper = (): ReactElement => {
         setActiveLeague={setActiveLeague}
       />
 
-      {loading ? (
-        <p className="text-body text-sm">Loading teams...</p>
+      {!loading ? (
+        <TeamSkeleton />
       ) : null}
 
       {error ? (
