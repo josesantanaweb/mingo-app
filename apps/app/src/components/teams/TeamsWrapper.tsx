@@ -1,13 +1,13 @@
 'use client';
 import type { ReactElement } from 'react';
 import { useMemo, useState } from 'react';
-import { MetricsBox, Tabs } from '@/components/common';
+import { MetricsBox, Tabs, HeaderScreens } from '@/components/common';
 import { useTeams, useLeagues } from '@/hooks';
 import { LeaguesFilter } from '@/components/leagues';
 import { EmptyState } from '@/components/teams';
 import type { League } from '@/types';
 import { TeamsList } from './TeamsList';
-import { TeamSkeleton } from './TeamSkeleton';
+import { TeamsSkeleton } from './TeamsSkeleton';
 
 const TABS = [
   { key: 'all' as const, label: 'all teams' },
@@ -32,14 +32,8 @@ export const TeamsWrapper = (): ReactElement => {
   }, [activeLeague, activeTab, teams]);
 
   return (
-    <div className="w-full h-full flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <h3 className="text-white font-bold text-2xl">Teams</h3>
-        <div className="flex flex-col">
-          <h3 className="text-primary font-bold text-xl">{filteredTeams.length}</h3>
-          <p className="uppercase text-sm text-body font-semibold">total teams</p>
-        </div>
-      </div>
+    <div className="w-full h-full flex flex-col gap-6 pb-12">
+      <HeaderScreens title="Teams" description="total teams" value={filteredTeams.length.toString()} />
 
       <div className="flex items-center justify-between gap-3">
         <MetricsBox title="win rate" value="14.10%" />
@@ -54,17 +48,11 @@ export const TeamsWrapper = (): ReactElement => {
         setActiveLeague={setActiveLeague}
       />
 
-      {!loading ? (
-        <TeamSkeleton />
-      ) : null}
+      {loading && <TeamsSkeleton count={5} />}
 
-      {error ? (
-        <p className="text-red-400 text-sm">Could not load teams from API.</p>
-      ) : null}
+      {!loading && !error && filteredTeams.length > 0 && <TeamsList teams={filteredTeams} />}
 
-      {!loading && !error && filteredTeams.length > 0 ? <TeamsList teams={filteredTeams} /> : null}
-
-      {!loading && !error && filteredTeams.length === 0 ? <EmptyState /> : null}
+      {!loading && !error && filteredTeams.length === 0 && <EmptyState />}
     </div>
   );
 };

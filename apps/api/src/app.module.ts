@@ -14,6 +14,7 @@ import { TagsModule } from '@/modules/tags/tags.module';
 import { BetsModule } from '@/modules/bets/bets.module';
 import { MatchesModule } from '@/modules/matches/matches.module';
 import { MarketsModule } from '@/modules/markets/markets.module';
+import { SeedModule } from '@/modules/seed/seed.module';
 import appConfig from '@/config/app.config';
 import jwtConfig from '@/config/jwt.config';
 
@@ -59,6 +60,7 @@ const envFilePaths = [
     BetsModule,
     MatchesModule,
     MarketsModule,
+    SeedModule,
   ],
 })
 export class AppModule {}

@@ -91,13 +91,14 @@ model League {
 }
 
 model Team {
-  id        String   @id @default(cuid())
-  name      String
-  logo      String
-  isFavorite Boolean  @default(false)
-  leagueId  String
-  league    League   @relation(fields: [leagueId], references: [id])
-  createdAt DateTime @default(now())
+  id                 String     @id @default(cuid())
+  name               String
+  logo               String
+  isFavorite         Boolean    @default(false)
+  leagueId           String
+  league             League     @relation(fields: [leagueId], references: [id])
+  streak               StreakType[]
+  createdAt          DateTime   @default(now())
 
   homeMatches Match[] @relation("HomeTeam")
   awayMatches Match[] @relation("AwayTeam")
@@ -122,6 +123,8 @@ model Match {
   awayTeamId String
   homeTeam   Team        @relation("HomeTeam", fields: [homeTeamId], references: [id])
   awayTeam   Team        @relation("AwayTeam", fields: [awayTeamId], references: [id])
+  homeScore  Int?
+  awayScore  Int?
   startDate  DateTime
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
@@ -185,4 +188,10 @@ enum MatchStatus {
   UPCOMING
   LIVE
   FINISHED
+}
+
+enum StreakType {
+  WIN
+  LOSE
+  DRAW
 }

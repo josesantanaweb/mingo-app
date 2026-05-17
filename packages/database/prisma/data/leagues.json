@@ -1,0 +1,17 @@
+[
+  {
+    "name": "La Liga",
+    "country": "Spain",
+    "logo": "https://static.flashscore.com/res/image/data/6aNYx0jD-Iaz3JkPl.png"
+  },
+  {
+    "name": "Premier League",
+    "country": "England",
+    "logo": "https://static.flashscore.com/res/image/data/423YHekd-ED8pXrsO.png"
+  },
+  {
+    "name": "Serie A",
+    "country": "Italy",
+    "logo": "https://static.flashscore.com/res/image/data/rFHMayEO-f7jf6xD9.png"
+  }
+]

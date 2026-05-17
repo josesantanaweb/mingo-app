@@ -1,4 +1,5 @@
 export { TeamsWrapper } from './TeamsWrapper';
 export { TeamItem } from './TeamItem';
+export { TeamStreak } from './TeamStreak';
 export { EmptyState } from './EmptyState';
-export { TeamSkeleton } from './TeamSkeleton';
+export { TeamsSkeleton } from './TeamsSkeleton';

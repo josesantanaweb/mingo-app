@@ -1,0 +1,47 @@
+[
+  {
+    "league": "La Liga",
+    "name": "Real Madrid",
+    "logo": "https://static.flashscore.com/res/image/data/A7kHoxZA-ttfpEDUq.png"
+  },
+  {
+    "league": "La Liga",
+    "name": "FC Barcelona",
+    "logo": "https://static.flashscore.com/res/image/data/8dhw5vxS-fcDVLdrL.png"
+  },
+  {
+    "league": "La Liga",
+    "name": "Atlético Madrid",
+    "logo": "https://static.flashscore.com/res/image/data/CjfjIsYg-GhHiNvXF.png"
+  },
+  {
+    "league": "Premier League",
+    "name": "Manchester City",
+    "logo": "https://static.flashscore.com/res/image/data/UXcqj7HG-ttfpEDUq.png"
+  },
+  {
+    "league": "Premier League",
+    "name": "Liverpool",
+    "logo": "https://static.flashscore.com/res/image/data/Gr0cGteM-KCp4zq5F.png"
+  },
+  {
+    "league": "Premier League",
+    "name": "Arsenal",
+    "logo": "https://static.flashscore.com/res/image/data/pfchdCg5-vcNAdtF9.png"
+  },
+  {
+    "league": "Serie A",
+    "name": "Inter",
+    "logo": "https://static.flashscore.com/res/image/data/lxz64qDa-O8c8nWOb.png"
+  },
+  {
+    "league": "Serie A",
+    "name": "AC Milan",
+    "logo": "https://static.flashscore.com/res/image/data/htYjIjFa-KtCfnbWp.png"
+  },
+  {
+    "league": "Serie A",
+    "name": "Juventus",
+    "logo": "https://static.flashscore.com/res/image/data/GKF3dlf5-0nz5yHcE.png"
+  }
+]

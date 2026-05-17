@@ -15,6 +15,7 @@ export const TEAMS_FRAGMENT = gql`
     name
     logo
     isFavorite
+    streak
     league {
       ...LeagueFragment
     }

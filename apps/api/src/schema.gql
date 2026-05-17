@@ -36,11 +36,18 @@ enum BetStatus {
   WON
 }
 
+input CreateLeagueInput {
+  country: String!
+  logo: String!
+  name: String!
+}
+
 input CreateTeamInput {
   isFavorite: Boolean
   leagueId: String!
   logo: String!
   name: String!
+  streak: [StreakType!]
   tagIds: [String!]
 }
 
@@ -56,12 +63,6 @@ type League {
   logo: String!
   name: String!
   teams: [Team!]
-}
-
-input LeagueInput {
-  country: String!
-  logo: String!
-  name: String!
 }
 
 input LoginInput {
@@ -108,7 +109,7 @@ type MessageResponse {
 
 type Mutation {
   createBet(input: BetInput!): Bet!
-  createLeague(input: LeagueInput!): League!
+  createLeague(input: CreateLeagueInput!): League!
   createMarket(input: MarketInput!): Market!
   createMatch(input: MatchInput!): Match!
   createTag(input: TagInput!): Tag!
@@ -119,12 +120,13 @@ type Mutation {
   deleteMatch(id: String!): Match!
   deleteTag(id: String!): Tag!
   deleteTeam(id: String!): Team!
+  executeSeed: String!
   login(input: LoginInput!): AuthResponse!
   logout: MessageResponse!
   refreshTokens(input: RefreshTokenInput!): AuthResponse!
   register(input: RegisterInput!): MessageResponse!
   updateBet(id: String!, input: BetInput!): Bet!
-  updateLeague(id: String!, input: LeagueInput!): League!
+  updateLeague(id: String!, input: UpdateLeagueInput!): League!
   updateMarket(id: String!, input: MarketInput!): Market!
   updateMatch(id: String!, input: MatchInput!): Match!
   updateTag(id: String!, input: TagInput!): Tag!
@@ -158,6 +160,13 @@ input RegisterInput {
   username: String
 }
 
+enum StreakType {
+  DRAW
+  LOSE
+  NONE
+  WIN
+}
+
 type Tag {
   id: ID!
   label: String!
@@ -174,6 +183,7 @@ type Team {
   league: League
   logo: String!
   name: String!
+  streak: [StreakType!]
   tags: [Tag!]
 }
 
@@ -182,11 +192,18 @@ input TeamFilterInput {
   leagueId: String
 }
 
+input UpdateLeagueInput {
+  country: String
+  logo: String
+  name: String
+}
+
 input UpdateTeamInput {
   isFavorite: Boolean
   leagueId: String
   logo: String
   name: String
+  streak: [StreakType!]
   tagIds: [String!]
 }
 

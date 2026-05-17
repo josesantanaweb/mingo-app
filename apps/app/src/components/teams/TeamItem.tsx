@@ -2,7 +2,8 @@
 import Image from 'next/image';
 import type { ReactElement } from 'react';
 import { ChevronRight } from '@boxicons/react';
-import { Team } from '@/types';
+import type { Team } from '@/types';
+import { TeamStreak } from './TeamStreak';
 
 interface TeamItemProps {
   team: Team;
@@ -28,17 +29,8 @@ export const TeamItem = ({ team }: TeamItemProps): ReactElement => {
       </div>
 
       <div className="flex items-center gap-3">
-        <div className="flex flex-col gap-1">
-          <p className="text-body uppercase text-xs font-semibold">win streak</p>
-          <div className="flex gap-1.5 items-center justify-end">
-            <span className="h-6 w-2 bg-primary rounded-full" />
-            <span className="h-6 w-2 bg-primary rounded-full" />
-            <span className="h-6 w-2 bg-primary rounded-full" />
-            <span className="h-6 w-2 bg-primary rounded-full" />
-            <span className="h-6 w-2 bg-primary rounded-full" />
-          </div>
-        </div>
-        <button className="text-white cursor-pointer">
+        <TeamStreak streak={team.streak} keyPrefix={team.id} />
+        <button type="button" className="text-white cursor-pointer">
           <ChevronRight className="w-7 h-7" />
         </button>
       </div>

@@ -6,24 +6,31 @@
   "types": "./dist/index.d.ts",
   "files": [
     "dist",
-    "generated"
+    "generated",
+    "prisma/data"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "db:generate": "dotenv -e ../../.env -- prisma generate",
     "db:migrate": "dotenv -e ../../.env -- prisma migrate dev",
+    "db:reset": "dotenv -e ../../.env -- prisma migrate reset",
     "db:migrate:deploy": "dotenv -e ../../.env -- prisma migrate deploy",
     "db:push": "dotenv -e ../../.env -- prisma db push",
     "db:studio": "dotenv -e ../../.env -- prisma studio",
-    "db:seed": "ts-node prisma/seed.ts"
+    "db:seed": "dotenv -e ../../.env -- ts-node --transpile-only prisma/seed.ts"
+  },
+  "prisma": {
+    "seed": "dotenv -e ../../.env -- ts-node --transpile-only prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.5.0"
   },
   "devDependencies": {
     "@mingo/tsconfig": "workspace:*",
+    "@types/node": "^22.13.10",
     "dotenv-cli": "^11.0.0",
     "prisma": "^6.5.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   }
 }
