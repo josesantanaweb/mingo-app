@@ -3,3 +3,4 @@ export { TeamItem } from './TeamItem';
 export { TeamStreak } from './TeamStreak';
 export { EmptyState } from './EmptyState';
 export { TeamsSkeleton } from './TeamsSkeleton';
+export { TeamsFilter } from './TeamsFilter';

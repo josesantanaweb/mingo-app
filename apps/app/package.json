@@ -12,6 +12,7 @@
     "@apollo/client": "^4.1.9",
     "@apollo/client-integration-nextjs": "^0.14.5",
     "@boxicons/react": "^1.0.3",
+    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.38.0",
