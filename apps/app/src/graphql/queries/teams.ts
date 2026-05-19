@@ -2,8 +2,8 @@ import { gql } from '@apollo/client';
 import { TEAMS_FRAGMENT } from '../fragments';
 
 export const GET_TEAMS = gql`
-  query Teams {
-    teams {
+  query Teams($filter: TeamFilterInput) {
+    teams(filter: $filter) {
       ...TeamFragment
     }
   }

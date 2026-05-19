@@ -2,14 +2,16 @@
 import type { ReactElement } from 'react';
 import { LeagueButton } from '@/components/common';
 import { League } from '@/types';
+import { LeaguesFilterSkeleton } from './LeaguesFilterSkeleton';
 
 interface LeaguesFilterProps {
   leagues: League[];
   activeLeague: League | null;
   setActiveLeague: (league: League | null) => void;
+  loading: boolean;
 }
 
-export const LeaguesFilter = ({ leagues, activeLeague, setActiveLeague }: LeaguesFilterProps): ReactElement => {
+export const LeaguesFilter = ({ leagues, activeLeague, setActiveLeague, loading }: LeaguesFilterProps): ReactElement => {
 
   return (
     <div className="flex items-center gap-3 max-w-md overflow-x-auto scrollbar-hide">
@@ -19,7 +21,12 @@ export const LeaguesFilter = ({ leagues, activeLeague, setActiveLeague }: League
         active={activeLeague === null}
         onClick={() => setActiveLeague(null)}
       />
-      {leagues.map((league) => (
+
+      {loading && (
+        <LeaguesFilterSkeleton />
+      )}
+
+      {!loading && leagues.map((league) => (
         <LeagueButton
           key={league.id}
           label={league.name}

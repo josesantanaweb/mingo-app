@@ -163,7 +163,6 @@ input RegisterInput {
 enum StreakType {
   DRAW
   LOSE
-  NONE
   WIN
 }
 
@@ -190,6 +189,7 @@ type Team {
 input TeamFilterInput {
   isFavorite: Boolean
   leagueId: String
+  name: String
 }
 
 input UpdateLeagueInput {

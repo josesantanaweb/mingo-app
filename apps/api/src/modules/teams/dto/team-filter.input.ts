@@ -8,6 +8,11 @@ export class TeamFilterInput {
   @IsString()
   leagueId?: string;
 
+  @Field(() => String, { nullable: true })
+  @IsOptional()
+  @IsString()
+  name?: string;
+
   @Field(() => Boolean, { nullable: true })
   @IsOptional()
   @IsBoolean()

@@ -9,6 +9,7 @@ type GetLeaguesQuery = {
 export const useLeagues = () => {
   const { data, error, loading } = useQuery<GetLeaguesQuery>(GET_LEAGUES, {
     fetchPolicy: 'network-only',
+    nextFetchPolicy: 'cache-first',
   });
 
   return {

@@ -103,7 +103,7 @@ export const SearchInput = ({
           type="button"
           aria-label="Limpiar búsqueda"
           onClick={handleClear}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-stroke transition-colors hover:text-body disabled:opacity-60"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-stroke cursor-pointer transition-colors hover:text-white disabled:opacity-60"
           disabled={disabled}
         >
           <X size="sm" />

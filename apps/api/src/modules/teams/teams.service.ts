@@ -14,6 +14,7 @@ export class TeamsService {
   async findAll(filter?: TeamFilterInput): Promise<Team[]> {
     const where = {
       ...(filter?.leagueId ? { leagueId: filter.leagueId } : {}),
+      ...(filter?.name ? { name: { contains: filter.name, mode: 'insensitive' as const } } : {}),
       ...(typeof filter?.isFavorite === 'boolean' ? { isFavorite: filter.isFavorite } : {}),
     };
 
