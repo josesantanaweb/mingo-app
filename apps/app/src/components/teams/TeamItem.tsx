@@ -1,8 +1,10 @@
 'use client';
 import Image from 'next/image';
+import Link from 'next/link';
 import type { ReactElement } from 'react';
 import { ChevronRight } from '@boxicons/react';
 import type { Team } from '@/types';
+import { ROUTES } from '@/constants';
 import { TeamStreak } from './TeamStreak';
 
 interface TeamItemProps {
@@ -11,7 +13,10 @@ interface TeamItemProps {
 
 export const TeamItem = ({ team }: TeamItemProps): ReactElement => {
   return (
-    <div className="flex items-center justify-between gap-3 w-full h-18 rounded-xl border border-stroke/30 px-3 bg-surface">
+    <Link
+      href={ROUTES.TEAMS.TEAM(team.id)}
+      className="flex items-center justify-between gap-3 w-full h-18 rounded-xl border border-stroke/30 px-3 bg-surface transition-colors hover:border-primary/40"
+    >
       <div className="flex gap-3 items-center">
         <div className="w-10 h-10">
           <Image
@@ -30,10 +35,10 @@ export const TeamItem = ({ team }: TeamItemProps): ReactElement => {
 
       <div className="flex items-center gap-3">
         <TeamStreak streak={team.streak} keyPrefix={team.id} />
-        <button type="button" className="text-white cursor-pointer">
+        <span className="text-white">
           <ChevronRight className="w-7 h-7" />
-        </button>
+        </span>
       </div>
-    </div>
+    </Link>
   );
 };

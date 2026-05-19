@@ -18,7 +18,7 @@ export const TeamsWrapper = (): ReactElement => {
   const [activeTab, setActiveTab] = useState<string>('all');
   const [activeLeague, setActiveLeague] = useState<League | null>(null);
   const [searchValue, setSearchValue] = useState('');
-  
+
   const debouncedSearchValue = useDebounce(searchValue.trim(), 300);
 
   const { data: teams, loading: teamsLoading, error } = useTeams({
@@ -27,6 +27,14 @@ export const TeamsWrapper = (): ReactElement => {
     leagueId: activeLeague?.id,
   });
   const { data: leagues, loading: leaguesLoading } = useLeagues();
+
+  const renderContent = () => {
+    if (teamsLoading) return <TeamsSkeleton count={5} />;
+    if (error) return <div className="text-red-500 text-center py-4">Error loading teams. Please try again.</div>;
+    if (teams.length === 0) return <EmptyState />;
+    
+    return <TeamsList teams={teams} />;
+  };
 
   return (
     <div className="w-full h-full flex flex-col gap-4 pb-12 relative">
@@ -37,7 +45,7 @@ export const TeamsWrapper = (): ReactElement => {
       />
 
       <div className="flex items-center gap-3 flex-col">
-        <div className="flex items-center justify-between gap-3 w-full">
+        <div className="grid grid-cols-2 items-center justify-between gap-3 w-full">
           <MetricsBox title="win rate" value="14.10%" />
           <MetricsBox title="profit" value="+2.6K" />
         </div>
@@ -58,11 +66,7 @@ export const TeamsWrapper = (): ReactElement => {
         loading={leaguesLoading}
       />
 
-      {teamsLoading && <TeamsSkeleton count={5} />}
-
-      {!teamsLoading && !error && teams.length > 0 && <TeamsList teams={teams} />}
-
-      {!teamsLoading && !error && teams.length === 0 && <EmptyState />}
+      {renderContent()}
 
       <AddButton onClick={() => {}} />
     </div>
