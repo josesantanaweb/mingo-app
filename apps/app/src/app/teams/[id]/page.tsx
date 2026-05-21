@@ -1,4 +1,4 @@
-import { TeamWrapper } from "@/components/teams/team/TeamWrapper";
+import { TeamWrapper } from "@/components/teams/detail/TeamWrapper";
 
 const TeamPage = () => <TeamWrapper />;
 

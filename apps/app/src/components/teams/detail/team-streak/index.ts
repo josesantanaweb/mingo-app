@@ -1,0 +1,1 @@
+export { TeamStreak } from './TeamStreak';

@@ -7,11 +7,11 @@ import type { Team } from '@/types';
 import { ROUTES } from '@/constants';
 import { TeamStreak } from './TeamStreak';
 
-interface TeamItemProps {
+interface TeamBoxProps {
   team: Team;
 }
 
-export const TeamItem = ({ team }: TeamItemProps): ReactElement => {
+export const TeamBox = ({ team }: TeamBoxProps): ReactElement => {
   return (
     <Link
       href={ROUTES.TEAMS.TEAM(team.id)}

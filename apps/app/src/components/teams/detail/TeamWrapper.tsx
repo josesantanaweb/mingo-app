@@ -5,7 +5,7 @@ import type { ReactElement } from 'react';
 import { Button } from '@/components/ui';
 import { MetricsBox } from '@/components/common';
 import { useTeam } from '@/hooks';
-import { TeamForm } from './TeamForm';
+import { TeamStreak } from './team-streak';
 import { TeamInfo } from './TeamInfo';
 import { TeamUpcomingGames } from './TeamUpcomingGames';
 
@@ -27,9 +27,9 @@ export const TeamWrapper = (): ReactElement => {
         <MetricsBox title="profit" value="+2.6K" />
       </div>
 
-      {<TeamForm streak={team?.streak || []} />}
+      {<TeamStreak streak={team?.streak || []} />}
 
-      <TeamUpcomingGames />
+      <TeamUpcomingGames team={team} />
 
       <div className="flex flex-col gap-3">
         <Button size="lg" variant="primary">
