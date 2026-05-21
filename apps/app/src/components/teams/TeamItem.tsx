@@ -15,7 +15,7 @@ export const TeamItem = ({ team }: TeamItemProps): ReactElement => {
   return (
     <Link
       href={ROUTES.TEAMS.TEAM(team.id)}
-      className="flex items-center justify-between gap-3 w-full h-18 rounded-xl border border-stroke/30 px-3 bg-surface transition-colors hover:border-primary/40"
+      className="flex items-center justify-between gap-3 w-full h-18 rounded-xl border border-stroke/30 px-3 bg-surface transition-colors"
     >
       <div className="flex gap-3 items-center">
         <div className="w-10 h-10">

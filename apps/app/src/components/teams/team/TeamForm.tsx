@@ -6,14 +6,24 @@ interface TeamFormProps {
   streak?: StreakType[];
 }
 
+const STREAK_BADGE_CLASS: Record<StreakType, string> = {
+  [StreakType.WIN]: 'bg-success/10 text-success border-success',
+  [StreakType.DRAW]: 'bg-surface text-body border-stroke',
+  [StreakType.LOSE]: 'bg-error/10 text-error border-error',
+};
+
+const STREAK_BADGE_LABEL: Record<StreakType, string> = {
+  [StreakType.WIN]: 'W',
+  [StreakType.DRAW]: 'D',
+  [StreakType.LOSE]: 'L',
+};
+
 const StreakBadge = ({ value }: { value: StreakType }) => (
   <span
     aria-hidden="true"
-    className={`flex items-center justify-center w-10 h-10 rounded-lg border border-stroke font-semibold ${
-      value === StreakType.WIN ? 'bg-surface text-primary' : 'bg-surface text-error'
-    }`}
+    className={`flex items-center justify-center w-10 h-10 rounded-lg border font-semibold ${STREAK_BADGE_CLASS[value]}`}
   >
-    {value === StreakType.WIN ? 'W' : 'L'}
+    {STREAK_BADGE_LABEL[value]}
   </span>
 );
 

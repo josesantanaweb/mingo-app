@@ -34,11 +34,11 @@ export const TeamWrapper = (): ReactElement => {
       <div className="flex flex-col gap-3">
         <Button size="lg" variant="primary">
           <Pencil />
-          edit team
+          Edit team
         </Button>
         <Button size="lg" variant="danger">
           <Trash />
-          delete team
+          Delete team
         </Button>
       </div>
     </div>

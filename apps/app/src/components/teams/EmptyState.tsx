@@ -1,6 +1,7 @@
 'use client';
 import type { ReactElement } from 'react';
 import { TShirt } from '@boxicons/react';
+import { Button } from '@/components/ui';
 
 export const EmptyState = (): ReactElement => {
   return (
@@ -10,9 +11,9 @@ export const EmptyState = (): ReactElement => {
         <h6 className="text-white font-semibold text-base">Add more teams</h6>
         <p className="text-sm text-body">Add a team to get started</p>
       </div>
-      <button className="w-full text-base uppercase cursor-pointer text-on-accent font-bold h-12 rounded-md bg-linear-to-t from-secondary to-primary transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-none hover:bg-primary hover:shadow-[0_10px_24px_rgba(224,251,50,0.18)] active:translate-y-0">
+      <Button size="lg" variant="primary">
         Add Team
-      </button>
+      </Button>
     </div>
   );
 };

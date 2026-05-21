@@ -31,7 +31,7 @@
   --stroke: #333333;
   --primary: #e0fb32;
   --secondary: #98ed20;
-  --streak-win: var(--primary);
+  --streak-win: var(--success);
   --streak-lose: var(--error);
   --streak-draw: #202020;
 }
