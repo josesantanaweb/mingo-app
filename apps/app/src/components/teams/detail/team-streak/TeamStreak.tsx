@@ -3,11 +3,15 @@ import React, { ReactElement, useMemo } from 'react';
 import { StreakType } from '@/types';
 import { STREAK_BADGE_CLASS, STREAK_BADGE_LABEL } from './utils';
 
-interface TeamStreakProps {
+type TeamStreakProps = {
   streak?: StreakType[];
-}
+};
 
-const StreakBadge = ({ value }: { value: StreakType }) => (
+type StreakBadgeProps = {
+  value: StreakType;
+};
+
+const StreakBadge = ({ value }: StreakBadgeProps): ReactElement => (
   <span
     className={`flex items-center justify-center w-10 h-10 rounded-lg border font-semibold ${STREAK_BADGE_CLASS[value]}`}
   >
@@ -16,22 +20,22 @@ const StreakBadge = ({ value }: { value: StreakType }) => (
 );
 
 export const TeamStreak = ({ streak = [] }: TeamStreakProps): ReactElement => {
+  const streakValues = streak ?? [];
+  const hasStreak = streakValues.length > 0;
 
-  const badges = useMemo(
-    () => (Array.isArray(streak) && streak.length ? streak.map((s, i) => <StreakBadge key={i} value={s} />) : []),
-    [streak]
+  const streakBadges = useMemo(
+    () => streakValues.map((value, index) => <StreakBadge key={index} value={value} />),
+    [streakValues]
   );
 
   return (
     <section className="flex flex-col gap-3">
-      <h3 className="text-base text-white uppercase font-semibold">
-        Recent form
-      </h3>
+      <h3 className="text-base text-white uppercase font-semibold">Recent form</h3>
       <div className="flex items-center gap-2" role="list" aria-label="Recent form results">
-        {badges.length ? (
-          badges.map((b, i) => (
-            <span role="listitem" key={i}>
-              {b}
+        {hasStreak ? (
+          streakBadges.map((badge, index) => (
+            <span role="listitem" key={index}>
+              {badge}
             </span>
           ))
         ) : (

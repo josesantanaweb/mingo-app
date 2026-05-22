@@ -18,7 +18,7 @@ export const useTeam = (id?: string) => {
   });
 
   return {
-    data: data?.team ?? null,
+    data: data?.team ?? undefined,
     error,
     loading,
   };
