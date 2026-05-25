@@ -27,9 +27,9 @@ export const TeamInfo = ({ team }: TeamInfoProps): ReactElement => {
   };
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex items-center gap-2">
-        <div className="w-15 h-15">
+    <div className="w-full flex items-center relative border border-stroke/30 flex-col justify-center bg-surface rounded-xl p-4 gap-4">
+      <div className="flex items-center flex-col gap-2">
+        <div className="w-20 h-20">
           {team.logo ? (
             <Image
               src={team.logo}
@@ -40,7 +40,7 @@ export const TeamInfo = ({ team }: TeamInfoProps): ReactElement => {
             />
           ) : null}
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center justify-center">
           <h2 className="text-2xl text-white font-bold">{team.name}</h2>
           {team.league ? (
             <div className="flex items-center gap-2">
@@ -60,7 +60,9 @@ export const TeamInfo = ({ team }: TeamInfoProps): ReactElement => {
           ) : null}
         </div>
       </div>
+      <div className="absolute top-4 right-4">
       <AddFavoriteButton onFavorite={handleFavorite} isFavorite={isFavorite} />
+      </div>
     </div>
   );
 };

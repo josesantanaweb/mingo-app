@@ -8,6 +8,7 @@ import { useTeam } from '@/hooks';
 import { TeamStreak, TeamStreakSkeleton } from './team-streak';
 import { TeamInfo, TeamInfoSkeleton } from './team-info';
 import { TeamUpcomingGames } from './TeamUpcomingGames';
+import { TeamStats } from './team-stats';
 
 export const TeamWrapper = (): ReactElement => {
   const params = useParams();
@@ -19,7 +20,7 @@ export const TeamWrapper = (): ReactElement => {
   const renderSection = (
     content: () => ReactElement,
     skeleton: ReactElement,
-    requireTeam = true
+    requireTeam = true,
   ) => (loading || (requireTeam && !team) ? skeleton : content());
 
   if (error && !loading) {
@@ -40,18 +41,32 @@ export const TeamWrapper = (): ReactElement => {
 
   return (
     <div className="w-full h-full flex flex-col gap-6 pt-6 pb-30 relative">
-      {renderSection(() => <TeamInfo team={team!} />, <TeamInfoSkeleton />)}
+      <div className="flex gap-3 items-center flex-col">
+        {renderSection(
+          () => (
+            <TeamInfo team={team!} />
+          ),
+          <TeamInfoSkeleton />,
+        )}
 
-      <div className="grid grid-cols-2 items-center justify-between gap-3 w-full">
-        <MetricsBox title="win rate" value="14.10%" />
-        <MetricsBox title="profit" value="+2.6K" />
-        <MetricsBox title="win rate" value="14.10%" />
-        <MetricsBox title="profit" value="+2.6K" />
+        <div className="grid grid-cols-2 items-center justify-between gap-3 w-full">
+          <MetricsBox title="win rate" value="14.10%" />
+          <MetricsBox title="profit" value="+2.6K" />
+          <MetricsBox title="win rate" value="14.10%" />
+          <MetricsBox title="profit" value="+2.6K" />
+        </div>
       </div>
 
-      {renderSection(() => <TeamStreak streak={team!.streak || []} />, <TeamStreakSkeleton />)}
+      {renderSection(
+        () => (
+          <TeamStreak streak={team!.streak || []} />
+        ),
+        <TeamStreakSkeleton />,
+      )}
 
       <TeamUpcomingGames team={team} />
+
+      <TeamStats />
 
       <div className="flex flex-col gap-3">
         <Button size="lg" variant="primary">
