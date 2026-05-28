@@ -1,5 +1,17 @@
-import { TeamWrapper } from "@/components/teams/detail/TeamWrapper";
+import { Suspense } from 'react';
+import { TeamWrapper } from '@/components/teams/detail/TeamWrapper';
+import { TeamInfoSkeleton } from '@/components/teams/detail/team-info';
 
-const TeamPage = () => <TeamWrapper />;
+type TeamPageProps = {
+  params: Promise<{ id: string }>;
+};
 
-export default TeamPage;
+export default async function TeamPage({ params }: TeamPageProps) {
+  const { id } = await params;
+
+  return (
+    <Suspense fallback={<TeamInfoSkeleton />}>
+      <TeamWrapper teamId={id} />
+    </Suspense>
+  );
+}

@@ -1,5 +1,11 @@
-import { TeamsWrapper } from "@/components/teams";
+import { Suspense } from 'react';
+import { TeamsWrapper } from '@/components/teams';
+import { TeamsSkeleton } from '@/components/teams';
 
-const TeamsPage = () => <TeamsWrapper />;
-
-export default TeamsPage;
+export default function TeamsPage() {
+  return (
+    <Suspense fallback={<TeamsSkeleton count={5} />}>
+      <TeamsWrapper />
+    </Suspense>
+  );
+}

@@ -3,9 +3,10 @@
 ---
 
 ## 🎯 FOCO DE HOY
-*Regla de oro: Máximo 2 o 3 tareas. Si no están aquí, no se programan hoy.*
-- [ ] 💻 **Programación:** Aplicar el prompt de Stitch para renderizar el componente del Match Insight (Tag "🔥 Over 2.5") en la tarjeta de partidos.
-- [ ] 🎨 **Diseño:** Ajustar el espaciado (padding) y fijar las cuotas `1 | X | 2` para resaltar visualmente al equipo local.
+- 💻 **Programación:** .
+  - [ ] Maquetar la pantalla de lista de partidos
+- 🎨 **Diseño:** 
+  <!-- - [ ] Diseñar la pantalla de listado de apuestas. -->
 
 ---
 
@@ -13,24 +14,46 @@
 *Tareas ya masticadas listas para cuando termine lo de arriba.*
 
 ### 🎨 UI / UX (Diseño y Maquetación)
-- [ ] Diseñar el modal de "Registrar Apuesta" que se abre al hacer clic largo en una cuota.
-- [ ] Crear los estados de carga (Skeleton loaders) para la lista de partidos de fútbol.
-- [ ] Definir la paleta de colores secundarios para cuando se integre el Béisbol (LVBP).
+- [ ] Diseñar la pantalla de listado de apuestas.
+- [ ] Diseñar la pantalla de creacion de apuestas.
+- [ ] Diseñar la pantalla de Login y Registro.
 
-### 💻 Backend & Base de Datos (NestJS / Prisma)
-- [ ] Configurar el modelo `SportMatch` en Prisma y probar la columna de tipo `Json` con datos simulados.
-- [ ] Crear el script para calcular la fórmula matemática real del `Win Rate` basada en el historial de apuestas cargadas.
-- [ ] Conectar el endpoint de favoritos (estrella) para guardar partidos en la base de datos local.
+### 💻 Desarrollo
 
+#### 🎨 Frontend
+- [ ] Maquetar la pantalla de lista de partidos
+- [ ] Integrar lista de partidos
+- [ ] Maquetar la pantalla de lista de apuestas
+- [ ] Integrar lista de apuestas
+- [ ] Maquetar la pantalla de Login y Registro.
+- [ ] Integrar la pantalla de Login y Registro.
+
+#### 🧠 Backend
+- [ ] Agregar tabla de Stats para los equipos y ligas.
+- [ ] Agregar filtro de fecha a los partidos.
+- [ ] Crear relaciones del modelo User
+- [ ] Agregar mutation de Login y Registro.
 ---
 
 ## 🧠 BAÚL DE IDEAS (Backlog de Dopamina)
-*Aquí apuntas todo lo que se te ocurra a mitad del día para sacarlo de tu cabeza y NO perder el foco. Se revisa solo los domingos.*
+<!-- *Aquí apuntas todo lo que se te ocurra a mitad del día para sacarlo de tu cabeza y NO perder el foco. Se revisa solo los domingos.* -->
 
 ### 💡 Ideas de Funcionalidades Futuras
-- Agregar un sistema de notificaciones push a Telegram que te avise: *"¡Alerta! Tu racha favorita está por empezar en 15 minutos"*.
-- Crear una sección de "Tipsters" locales donde creadores de contenido de TikTok en Venezuela puedan subir sus capturas de parleys.
-- Integrar pasarela de pago con Binance Pay y Pago Móvil automatizado para el plan Premium.
+---
+#### 💰 Módulo: Marketplace de Tipsters & Canales Privados (Fase 2)
+*Modelo de negocio 'OnlyFans para Apostadores' enfocado en el mercado de Latinoamérica.*
+- [ ] **Arquitectura Backend (NestJS):** 
+  - Crear el módulo `modules/subscriptions` para gestionar estados de pago.
+  - Crear el módulo `modules/channels` con resolvers GraphQL para publicaciones (Free vs. Premium).
+- [ ] **Base de Datos (Prisma):** 
+  - Añadir rol `TIPSTER` al modelo `User`.
+  - Crear la tabla `ChannelMessage` vinculada a un `Match` o `Bet` para evitar alteraciones o borrados de historial (Estadísticas 100% Verificadas).
+  - Estructurar el modelo `Subscription` con enums `ACTIVE`, `EXPIRED`, `PENDING`.
+- [ ] **Estrategia UI/UX (Frontend Next.js):**
+  - Diseñar la ruta `/tipsters` con un feed de posts dinámico.
+  - Implementar un componente de bloqueo visual (`PremiumPostBlur`) que esconda el pronóstico y muestre el botón de pago si el usuario no está suscrito.
+- [ ] **Pasarelas de Pago Contextuales (Latam):**
+  - Integrar Webhooks para validar pagos automáticos mediante Binance Pay (Cripto), Pago Móvil (Venezuela), Nequi (Colombia) y SPEI (México).
 
 ### 📊 Ideas de Marketing / Comunidad
 - Grabar un TikTok mostrando el "Antes y Después" de cómo la IA calcula el Tag de Over 2.5 combinando los dos equipos.
@@ -39,7 +62,6 @@
 ---
 
 ## ✅ HECHO ESTE MES (Historial de Victorias)
-*Esto es vital para tu motivación. Cuando veas esto lleno, sabrás que sí estás avanzando.*
-- [x] 🎨 Completar el diseño en modo oscuro (Premium Black + Verde Neón) de la pantalla Matches.
-- [x] 💻 Definir la arquitectura polimórfica para escalar a múltiples deportes en Prisma.
-- [x] 💻 Corregir la duplicidad de partidos en la lista del Frontend.
+- [x] 🎨 ~~Completar el diseño en modo oscuro (Premium Black + Verde Neón) de la pantalla Matches.~~
+- [x] 💻 ~~Definir la arquitectura polimórfica para escalar a múltiples deportes en Prisma.~~
+- [x] 💻 ~~Corregir la duplicidad de partidos en la lista del Frontend.~~

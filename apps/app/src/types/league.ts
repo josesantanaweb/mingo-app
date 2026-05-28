@@ -1,5 +1,5 @@
 
-export interface League {
+export interface ILeague {
   id: string;
   name: string;
   logo: string;

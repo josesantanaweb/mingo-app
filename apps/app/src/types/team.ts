@@ -1,4 +1,4 @@
-import { League } from "./league";
+import type { ILeague } from '@/types/league';
 
 export enum StreakType {
   WIN = 'WIN',
@@ -6,16 +6,16 @@ export enum StreakType {
   DRAW = 'DRAW',
 }
 
-export interface Tag {
+export interface ITag {
   label: string;
 }
 
-export interface Team {
+export interface ITeam {
   id: string;
   isFavorite?: boolean | null;
-  league?: League | null;
+  league?: ILeague | null;
   logo: string;
   name: string;
   streak?: StreakType[] | null;
-  tags?: Tag[] | null;
+  tags?: ITag[] | null;
 }

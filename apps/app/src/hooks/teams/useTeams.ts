@@ -1,9 +1,9 @@
 import { useQuery } from '@apollo/client/react';
 import { GET_TEAMS } from '@/graphql/queries';
-import type { Team } from '@/types';
+import type { ITeam } from '@/types';
 
 type GetTeamsQuery = {
-  teams: Team[];
+  teams: ITeam[];
 };
 
 type GetTeamsVariables = {
@@ -18,9 +18,10 @@ type UseTeamsOptions = {
   leagueId?: string;
   name?: string;
   isFavorite?: boolean;
+  skip?: boolean;
 };
 
-export const useTeams = ({ leagueId, name, isFavorite }: UseTeamsOptions = {}) => {
+export const useTeams = ({ leagueId, name, isFavorite, skip }: UseTeamsOptions = {}) => {
   const filter = {
     ...(leagueId ? { leagueId } : {}),
     ...(name ? { name } : {}),
@@ -29,6 +30,7 @@ export const useTeams = ({ leagueId, name, isFavorite }: UseTeamsOptions = {}) =
 
   const { data, error, loading } = useQuery<GetTeamsQuery, GetTeamsVariables>(GET_TEAMS, {
     variables: { filter: Object.keys(filter).length > 0 ? filter : undefined },
+    skip,
     fetchPolicy: 'cache-first',
     nextFetchPolicy: 'cache-first',
   });
