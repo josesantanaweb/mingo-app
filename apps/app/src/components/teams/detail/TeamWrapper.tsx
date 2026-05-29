@@ -11,18 +11,10 @@ type TeamWrapperProps = {
 };
 
 export const TeamWrapper = async ({ teamId }: TeamWrapperProps): Promise<ReactElement> => {
-  const { data, error } = await query<TeamQuery>({
+  const { data } = await query<TeamQuery>({
     query: GET_TEAM,
     variables: { id: teamId },
   });
-
-  if (error) {
-    return (
-      <div className="w-full h-full flex items-center justify-center">
-        <p className="text-red-500">Failed to load team data. Please try again later.</p>
-      </div>
-    );
-  }
 
   const team = data?.team;
 

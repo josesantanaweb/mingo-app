@@ -1,10 +1,10 @@
 'use client';
 import type { ReactElement } from 'react';
-import { Team } from '@/types';
+import { ITeam } from '@/types';
 import { MatchBox } from '@/components/common/MatchBox';
 
 interface TeamUpcomingGamesProps {
-  team?: Team;
+  team?: ITeam;
 }
 
 export const TeamUpcomingGames = ({ team }: TeamUpcomingGamesProps): ReactElement => {

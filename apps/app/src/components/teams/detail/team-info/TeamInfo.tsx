@@ -2,12 +2,12 @@
 import Image from 'next/image';
 import type { ReactElement } from 'react';
 import { useAnimationControls } from 'framer-motion';
-import { Team } from '@/types';
+import { ITeam } from '@/types';
 import { useUpdateTeam } from '@/hooks';
 import { AddFavoriteButton } from '@/components/common';
 
 interface TeamInfoProps {
-  team: Team;
+  team: ITeam;
 }
 
 export const TeamInfo = ({ team }: TeamInfoProps): ReactElement => {
