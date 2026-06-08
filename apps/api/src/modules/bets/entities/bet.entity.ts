@@ -10,7 +10,7 @@ export class Bet {
   @Field(() => ID)
   id!: string;
 
-  @Field()
+  @Field(() => String)
   prediction!: string;
 
   @Field(() => Float)
