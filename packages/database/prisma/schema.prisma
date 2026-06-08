@@ -24,10 +24,11 @@ model User {
   otpCodes      OtpCode[]
   refreshTokens RefreshToken[]
 
-  balance      Decimal  @default(0.0) @db.Decimal(10, 2)
+  tokens  Decimal @db.Decimal(10, 2) @default(0.0)
+  credits Decimal @db.Decimal(10, 2) @default(0.0)
 
-  bets         Bet[]
-  transactions Transaction[]
+  participations Operation[]
+  transactions   Transaction[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -84,54 +85,82 @@ model OtpCode {
 }
 
 model ExchangeRate {
-  id        String   @id @default(cuid())
-  rate      Float
-  date      DateTime @unique @default(now())
+  id   String   @id @default(cuid())
+  rate Decimal @db.Decimal(10, 2)
+  date DateTime @unique @default(now())
 
   @@map("exchange_rates")
 }
 
-model Draw {
-  id           String      @id @default(cuid())
-  date         DateTime    // Fecha del sorteo
-  schedule     Schedule    // MEDIODIA o NOCHE
-  lotteryType  LotteryType // A o B
-  winningNumber Int?       // 1 al 99 (null hasta que se realice el sorteo)
-  isProcessed  Boolean     @default(false)
+model RewardConfig {
+  id         String     @id @default(cuid())
+  title      String // Ej: "Pozo Acumulado de Tokens" o "Camisa Oficial del Madrid"
+  rewardType RewardType // DIGITAL_CREDIT, PHYSICAL_PRODUCT, GIFT_CARD, POOL_DIVIDEND
+  value      Decimal @db.Decimal(10, 2) // Para créditos digitales, el valor en tokens o créditos. Para productos físicos, el valor monetario estimado.
 
-  bets         Bet[]
+  gameEvents GameEvent[]
+  operations Operation[]
 
-  @@unique([date, schedule, lotteryType])
-  @@map("draws")
+  @@map("reward_configs")
 }
 
-model Bet {
+model GameEvent {
   id             String    @id @default(cuid())
+  gameType       GameType
+  date           DateTime
+  schedule       Schedule?
+  rewardConfigId String
+
+  winningResult String?
+  isProcessed   Boolean @default(false)
+
+  rewardConfig   RewardConfig @relation(fields: [rewardConfigId], references: [id])
+  participations Operation[]
+
+  @@map("game_events")
+}
+
+model Operation {
+  id             String   @id @default(cuid())
   userId         String
-  drawId         String
-  selectedNumber Int       // 1 al 99
-  amountUsd      Decimal   @default(1.0) @db.Decimal(10, 2)
-  rateAtPurchase Decimal   @db.Decimal(10, 2) // Guardamos la tasa BCV del momento de compra
-  status         BetStatus @default(PENDING)
+  gameType       GameType
+  gameEventId    String?
+  rewardConfigId String?
 
-  user           User      @relation(fields: [userId], references: [id])
-  draw           Draw      @relation(fields: [drawId], references: [id])
+  // gameMetadata   Json?
 
-  createdAt      DateTime  @default(now())
+  costTokens     Decimal         @db.Decimal(10, 2)
+  currencyUsed   CurrencyType    @default(TOKEN)
+  rateAtPurchase Decimal         @db.Decimal(10, 2)
+  status         OperationStatus @default(PENDING)
 
-  @@map("bets")
+  user         User          @relation(fields: [userId], references: [id])
+  gameEvent    GameEvent?    @relation(fields: [gameEventId], references: [id])
+  rewardConfig RewardConfig? @relation(fields: [rewardConfigId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@map("operations")
 }
 
 model Transaction {
-  id          String          @id @default(cuid())
-  userId      String
-  amount      Decimal         @db.Decimal(10, 2)
+  id     String @id @default(cuid())
+  userId String
+
+  amountVes    Decimal @db.Decimal(10, 2) // Cantidad exacta en Bolívares de la operación
+  amountUsd     Decimal @db.Decimal(10, 2) // Equivalente exacto en dólares ($)
+  rateAtProcess Decimal @db.Decimal(10, 2) // La tasa de cambio del día/momento en que se ejecuta la transacción
+
+  tokensGiven   Decimal @default(0.0) @db.Decimal(10, 2) // Si es recarga: cuántos tokens se le sumaron
+  creditsBurned Decimal
+
   type        TransactionType
   description String?
-  reference   String?         // Para depósitos bancarios/pago móvil
+  capture     String?
+  reference   String? // Para depósitos bancarios/pago móvil
 
-  user        User            @relation(fields: [userId], references: [id])
-  createdAt   DateTime        @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
 
   @@map("transactions")
 }
@@ -150,10 +179,21 @@ enum OtpType {
 }
 
 enum TransactionType {
-  DEPOSIT
-  WITHDRAWAL
-  BET_PURCHASE
-  WINNING_PRIZE
+  TOKEN_PURCHASE
+  CREDIT_REDEMPTION
+  REWARD_PRIZE
+}
+
+enum CurrencyType {
+  TOKEN
+  CREDIT
+}
+
+enum GameType {
+  DRAW
+  BINGO
+  MINES
+  SPORTS
 }
 
 enum LotteryType {
@@ -161,14 +201,21 @@ enum LotteryType {
   B
 }
 
-enum Schedule {
-  NOON     // 1:15 PM
-  NIGHT    // 10:10 PM
+enum RewardType {
+  DIGITAL_CREDIT
+  PHYSICAL_PRODUCT
+  GIFT_CARD
+  POOL_DIVIDEND
 }
 
-enum BetStatus {
+enum Schedule {
+  NOON // 1:15 PM
+  NIGHT // 10:10 PM
+}
+
+enum OperationStatus {
   PENDING
-  WON
-  LOST
+  REWARDED
+  COMPLETED
   CANCELLED
 }

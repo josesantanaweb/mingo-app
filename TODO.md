@@ -4,8 +4,7 @@
 
 ## 🎯 FOCO DE HOY
 *Regla de oro: Máximo 2 o 3 tareas. Si no están aquí, no se programan hoy.*
-- [ ] 💻 **Programación:** Aplicar el prompt de Stitch para renderizar el componente del Match Insight (Tag "🔥 Over 2.5") en la tarjeta de partidos.
-- [ ] 🎨 **Diseño:** Ajustar el espaciado (padding) y fijar las cuotas `1 | X | 2` para resaltar visualmente al equipo local.
+- [ ] Crear modulos y relaciones de prisma
 
 ---
 
@@ -13,14 +12,10 @@
 *Tareas ya masticadas listas para cuando termine lo de arriba.*
 
 ### 🎨 UI / UX (Diseño y Maquetación)
-- [ ] Diseñar el modal de "Registrar Apuesta" que se abre al hacer clic largo en una cuota.
-- [ ] Crear los estados de carga (Skeleton loaders) para la lista de partidos de fútbol.
-- [ ] Definir la paleta de colores secundarios para cuando se integre el Béisbol (LVBP).
+- [ ] Diseñar pagina de checkout.
 
 ### 💻 Backend & Base de Datos (NestJS / Prisma)
-- [ ] Configurar el modelo `SportMatch` en Prisma y probar la columna de tipo `Json` con datos simulados.
-- [ ] Crear el script para calcular la fórmula matemática real del `Win Rate` basada en el historial de apuestas cargadas.
-- [ ] Conectar el endpoint de favoritos (estrella) para guardar partidos en la base de datos local.
+- [ ] Crear modulos y relaciones de prisma
 
 ---
 

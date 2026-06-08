@@ -1,9 +1,9 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { InputType, Field, Float } from '@nestjs/graphql';
 import { IsInt } from 'class-validator';
 
 @InputType()
 export class ExchangeRateInput {
-  @Field()
+  @Field(() => Float)
   @IsInt()
   rate!: number;
 
