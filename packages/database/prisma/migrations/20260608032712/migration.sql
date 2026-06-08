@@ -5,10 +5,16 @@ CREATE TYPE "UserRole" AS ENUM ('ADMIN', 'USER');
 CREATE TYPE "OtpType" AS ENUM ('EMAIL_VERIFICATION', 'PASSWORD_RESET', 'TWO_FACTOR');
 
 -- CreateEnum
-CREATE TYPE "BetStatus" AS ENUM ('PENDING', 'WON', 'LOST', 'VOID');
+CREATE TYPE "TransactionType" AS ENUM ('DEPOSIT', 'WITHDRAWAL', 'BET_PURCHASE', 'WINNING_PRIZE');
 
 -- CreateEnum
-CREATE TYPE "MatchStatus" AS ENUM ('UPCOMING', 'LIVE', 'FINISHED');
+CREATE TYPE "LotteryType" AS ENUM ('A', 'B');
+
+-- CreateEnum
+CREATE TYPE "Schedule" AS ENUM ('NOON', 'NIGHT');
+
+-- CreateEnum
+CREATE TYPE "BetStatus" AS ENUM ('PENDING', 'WON', 'LOST', 'CANCELLED');
 
 -- CreateTable
 CREATE TABLE "users" (
@@ -20,6 +26,7 @@ CREATE TABLE "users" (
     "isEmailVerified" BOOLEAN NOT NULL DEFAULT false,
     "isTwoFactorEnabled" BOOLEAN NOT NULL DEFAULT false,
     "twoFactorSecret" TEXT,
+    "balance" DECIMAL(10,2) NOT NULL DEFAULT 0.0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -66,81 +73,51 @@ CREATE TABLE "otp_codes" (
 );
 
 -- CreateTable
-CREATE TABLE "leagues" (
+CREATE TABLE "exchange_rates" (
     "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "country" TEXT NOT NULL,
-    "logo" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "rate" DECIMAL(10,2) NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "leagues_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "exchange_rates_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "teams" (
+CREATE TABLE "draws" (
     "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "logo" TEXT NOT NULL,
-    "isFavorite" BOOLEAN NOT NULL DEFAULT false,
-    "leagueId" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "date" TIMESTAMP(3) NOT NULL,
+    "schedule" "Schedule" NOT NULL,
+    "lotteryType" "LotteryType" NOT NULL,
+    "winningNumber" INTEGER,
+    "isProcessed" BOOLEAN NOT NULL DEFAULT false,
 
-    CONSTRAINT "teams_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "tags" (
-    "id" TEXT NOT NULL,
-    "label" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "tags_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "matches" (
-    "id" TEXT NOT NULL,
-    "homeTeamId" TEXT NOT NULL,
-    "awayTeamId" TEXT NOT NULL,
-    "startDate" TIMESTAMP(3) NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-    "status" "MatchStatus" NOT NULL DEFAULT 'UPCOMING',
-
-    CONSTRAINT "matches_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "markets" (
-    "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "markets_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "draws_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "bets" (
     "id" TEXT NOT NULL,
-    "matchId" TEXT NOT NULL,
-    "marketId" TEXT NOT NULL,
-    "prediction" TEXT NOT NULL,
-    "odds" DOUBLE PRECISION NOT NULL,
-    "stake" DOUBLE PRECISION NOT NULL,
+    "userId" TEXT NOT NULL,
+    "drawId" TEXT NOT NULL,
+    "selectedNumber" INTEGER NOT NULL,
+    "amountUsd" DECIMAL(10,2) NOT NULL DEFAULT 1.0,
+    "rateAtPurchase" DECIMAL(10,2) NOT NULL,
     "status" "BetStatus" NOT NULL DEFAULT 'PENDING',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "bets_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "_TeamTags" (
-    "A" TEXT NOT NULL,
-    "B" TEXT NOT NULL,
+CREATE TABLE "transactions" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "amount" DECIMAL(10,2) NOT NULL,
+    "type" "TransactionType" NOT NULL,
+    "description" TEXT,
+    "reference" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "_TeamTags_AB_pkey" PRIMARY KEY ("A","B")
+    CONSTRAINT "transactions_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -162,13 +139,10 @@ CREATE INDEX "refresh_tokens_userId_idx" ON "refresh_tokens"("userId");
 CREATE INDEX "otp_codes_userId_type_idx" ON "otp_codes"("userId", "type");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "tags_label_key" ON "tags"("label");
+CREATE UNIQUE INDEX "exchange_rates_date_key" ON "exchange_rates"("date");
 
 -- CreateIndex
-CREATE INDEX "matches_startDate_idx" ON "matches"("startDate");
-
--- CreateIndex
-CREATE INDEX "_TeamTags_B_index" ON "_TeamTags"("B");
+CREATE UNIQUE INDEX "draws_date_schedule_lotteryType_key" ON "draws"("date", "schedule", "lotteryType");
 
 -- AddForeignKey
 ALTER TABLE "sessions" ADD CONSTRAINT "sessions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -180,22 +154,10 @@ ALTER TABLE "refresh_tokens" ADD CONSTRAINT "refresh_tokens_userId_fkey" FOREIGN
 ALTER TABLE "otp_codes" ADD CONSTRAINT "otp_codes_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "teams" ADD CONSTRAINT "teams_leagueId_fkey" FOREIGN KEY ("leagueId") REFERENCES "leagues"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "bets" ADD CONSTRAINT "bets_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "matches" ADD CONSTRAINT "matches_homeTeamId_fkey" FOREIGN KEY ("homeTeamId") REFERENCES "teams"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "bets" ADD CONSTRAINT "bets_drawId_fkey" FOREIGN KEY ("drawId") REFERENCES "draws"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "matches" ADD CONSTRAINT "matches_awayTeamId_fkey" FOREIGN KEY ("awayTeamId") REFERENCES "teams"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "bets" ADD CONSTRAINT "bets_matchId_fkey" FOREIGN KEY ("matchId") REFERENCES "matches"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "bets" ADD CONSTRAINT "bets_marketId_fkey" FOREIGN KEY ("marketId") REFERENCES "markets"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_TeamTags" ADD CONSTRAINT "_TeamTags_A_fkey" FOREIGN KEY ("A") REFERENCES "tags"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_TeamTags" ADD CONSTRAINT "_TeamTags_B_fkey" FOREIGN KEY ("B") REFERENCES "teams"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "transactions" ADD CONSTRAINT "transactions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

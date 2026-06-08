@@ -1,4 +1,4 @@
-# 🚀 STEIK - Product Roadmap & Task Board
+# 🚀 Mingo - Product Roadmap & Task Board
 
 ---
 

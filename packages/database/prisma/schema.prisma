@@ -24,6 +24,11 @@ model User {
   otpCodes      OtpCode[]
   refreshTokens RefreshToken[]
 
+  balance      Decimal  @default(0.0) @db.Decimal(10, 2)
+
+  bets         Bet[]
+  transactions Transaction[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -78,90 +83,57 @@ model OtpCode {
   @@map("otp_codes")
 }
 
-model League {
-  id      String @id @default(cuid())
-  name    String
-  country String
-  logo    String
-  teams   Team[]
+model ExchangeRate {
+  id        String   @id @default(cuid())
+  rate      Float
+  date      DateTime @unique @default(now())
 
-  createdAt DateTime @default(now())
-
-  @@map("leagues")
+  @@map("exchange_rates")
 }
 
-model Team {
-  id                 String     @id @default(cuid())
-  name               String
-  logo               String
-  isFavorite         Boolean    @default(false)
-  leagueId           String
-  league             League     @relation(fields: [leagueId], references: [id])
-  streak               StreakType[]
-  createdAt          DateTime   @default(now())
+model Draw {
+  id           String      @id @default(cuid())
+  date         DateTime    // Fecha del sorteo
+  schedule     Schedule    // MEDIODIA o NOCHE
+  lotteryType  LotteryType // A o B
+  winningNumber Int?       // 1 al 99 (null hasta que se realice el sorteo)
+  isProcessed  Boolean     @default(false)
 
-  homeMatches Match[] @relation("HomeTeam")
-  awayMatches Match[] @relation("AwayTeam")
-  tags        Tag[]   @relation("TeamTags")
+  bets         Bet[]
 
-  @@map("teams")
-}
-
-model Tag {
-  id    String @id @default(cuid())
-  label String @unique
-  teams Team[] @relation("TeamTags")
-
-  createdAt DateTime @default(now())
-
-  @@map("tags")
-}
-
-model Match {
-  id         String      @id @default(cuid())
-  homeTeamId String
-  awayTeamId String
-  homeTeam   Team        @relation("HomeTeam", fields: [homeTeamId], references: [id])
-  awayTeam   Team        @relation("AwayTeam", fields: [awayTeamId], references: [id])
-  homeScore  Int?
-  awayScore  Int?
-  startDate  DateTime
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  bets       Bet[]
-  status     MatchStatus @default(UPCOMING)
-
-  @@index([startDate])
-  @@map("matches")
-}
-
-model Market {
-  id   String @id @default(cuid())
-  name String
-  bets Bet[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("markets")
+  @@unique([date, schedule, lotteryType])
+  @@map("draws")
 }
 
 model Bet {
-  id       String @id @default(cuid())
-  matchId  String
-  match    Match  @relation(fields: [matchId], references: [id])
-  marketId String
-  market   Market @relation(fields: [marketId], references: [id])
+  id             String    @id @default(cuid())
+  userId         String
+  drawId         String
+  selectedNumber Int       // 1 al 99
+  amountUsd      Decimal   @default(1.0) @db.Decimal(10, 2)
+  rateAtPurchase Decimal   @db.Decimal(10, 2) // Guardamos la tasa BCV del momento de compra
+  status         BetStatus @default(PENDING)
 
-  prediction String
-  odds       Float
-  stake      Float
-  status     BetStatus @default(PENDING)
+  user           User      @relation(fields: [userId], references: [id])
+  draw           Draw      @relation(fields: [drawId], references: [id])
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt      DateTime  @default(now())
 
   @@map("bets")
+}
+
+model Transaction {
+  id          String          @id @default(cuid())
+  userId      String
+  amount      Decimal         @db.Decimal(10, 2)
+  type        TransactionType
+  description String?
+  reference   String?         // Para depósitos bancarios/pago móvil
+
+  user        User            @relation(fields: [userId], references: [id])
+  createdAt   DateTime        @default(now())
+
+  @@map("transactions")
 }
 
 // ─── Enums ───────────────────────────────────────────────────────────────────
@@ -177,21 +149,26 @@ enum OtpType {
   TWO_FACTOR
 }
 
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  BET_PURCHASE
+  WINNING_PRIZE
+}
+
+enum LotteryType {
+  A
+  B
+}
+
+enum Schedule {
+  NOON     // 1:15 PM
+  NIGHT    // 10:10 PM
+}
+
 enum BetStatus {
   PENDING
   WON
   LOST
-  VOID
-}
-
-enum MatchStatus {
-  UPCOMING
-  LIVE
-  FINISHED
-}
-
-enum StreakType {
-  WIN
-  LOSE
-  DRAW
+  CANCELLED
 }

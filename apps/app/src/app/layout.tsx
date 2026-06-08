@@ -12,8 +12,8 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Steik",
-  description: "Steik app",
+  title: "Mingo",
+  description: "Mingo app",
 };
 
 export default function RootLayout({
